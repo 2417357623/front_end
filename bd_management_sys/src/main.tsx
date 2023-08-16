@@ -18,23 +18,18 @@ import {
 // const Invoices = lazy(()=>import('./routes/Invoices.jsx'))
 // const Invoice = lazy(()=>import('./routes/Invoice.jsx'))
 // const Expenses = lazy(()=>import('./routes/Home.tsx'))
-import Invoices from './routes/Invoices.jsx'
-import Invoice from './routes/Invoice.jsx'
-import View from './routes/Home'
-import Page1 from './routes/Page1'
-import Page2 from './routes/Page2'
+import Home from './view/Home/Home'
+import Page1 from './view/Home/Page1'
+import Page2 from './view/Home/Page2'
+import DataPage from "./view/DataPage/DataPage";
+import Login from "./view/Login";
+import {Navigate} from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
+
       <BrowserRouter>
           <Routes>
-              <Route path="home" element={<View />} >
-                  <Route path={"page1"} element={< Page1></Page1>} />
-                  <Route path={"page2"} element={< Page2></Page2>} />
-              </Route>
-              <Route path="/" element={<App />} >
-                  <Route path="invoices" element={<Invoices />}>
-                      <Route path=":invoiceId" element={<Invoice />} />
-                  </Route>
+              <Route path="/" element={<Navigate to={"/login"} />} >
               </Route>
               <Route
                   path="*"
@@ -42,6 +37,14 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                       <App></App>
                   }
               />
+              <Route path="home" element={<Home />} >
+                  <Route path={"page1"} element={< Page1></Page1>} />
+                  <Route path={"page2"} element={< Page2></Page2>} />
+              </Route>
+              <Route path={"login"} element={<Login></Login>}>
+              </Route>
+              <Route path={"dataPage"} element={<DataPage></DataPage>}>
+              </Route>
           </Routes>
       </BrowserRouter>
 )

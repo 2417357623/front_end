@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import {Outlet,useNavigate} from 'react-router-dom'
-import Mainmenu from "../components/MainMenu";
+import Mainmenu from "../../components/MainMenu";
 const { Header, Content, Footer, Sider } = Layout;
 
 const View: React.FC = () => {

@@ -1,0 +1,60 @@
+//.loginPage {
+//  position: relative;
+//  background-image: url('./background.jpg');
+//  background-size: cover;
+//  height: 100vh;
+//
+//  .loginBox {
+//    position: absolute;
+//    top: 50%;
+//    left: 50%;
+//  }
+//
+//  .formBox {
+//    margin-top: 64px;
+//  }
+//}
+
+.loginPage {
+  position: relative;
+  background-image: url('./img.png');
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    text-align: center;
+    color: white;
+  }
+
+  .formBox {
+    margin-top: 32px;
+  }
+
+  .loginBox {
+
+    .ant-input-password-icon {
+      color: red;
+    }
+    .myInput{
+      background-color: rgba(212, 255, 255, 0);
+      color: white;
+    }
+    .ant-btn {
+      width: 160px;
+      height: 48px;
+      background: #bf1d0a;
+      border-color: #bf1d0a;
+    }
+  }
+}
+
+
+
+
+
+
+
+

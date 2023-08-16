@@ -21,6 +21,13 @@
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "../../../../../Program Files/JetBrains/IntelliJ IDEA 2022.2.1/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts",
+    "../../../../../Program Files/JetBrains/IntelliJ IDEA 2022.2.1/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts",
+    "../../../../../Program Files/JetBrains/IntelliJ IDEA 2022.2.1/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts",
+    "../../../../../Program Files/JetBrains/IntelliJ IDEA 2022.2.1/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts",
+    "../../../../../Program Files/JetBrains/IntelliJ IDEA 2022.2.1/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
