@@ -1,7 +1,7 @@
 import styles from "./Sidebar.module.scss"
 import {personsImgs} from '../../../../utils/images.js'
 import {navigationLinks} from '../../../../data/data.js'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useSelector,useDispatch} from "react-redux";
 
 const Sidebar = () => {
@@ -11,8 +11,16 @@ const Sidebar = () => {
     const dispatch = new useDispatch()
     const isSidebarOpen = useSelector((state)=>state.isSidebarOpen)
 
+    useEffect(()=>{
+        if (!isSidebarOpen){
+            setSidebarClass(`${styles.sidebarChange}`)
+        }else {
+            setSidebarClass("")
+        }
+    },[isSidebarOpen])
+
     return (
-        <div className={styles.sidebar}>
+        <div className={`${styles.sidebar} ${sidebarClass}`}>
             <div className={styles.userInfo}>
                 <div className={`${styles.infoImg} img-fit-cover`}>
                     <img src={personsImgs.person_two} alt={"profile image"}/>
@@ -23,7 +31,7 @@ const Sidebar = () => {
                         {
                             navigationLinks.map((navigationLink) => (
                                     <li className={styles.navItem} key={navigationLink.id}>
-                                        <a href={"#"} className={styles.navLink}>
+                                        <a href={"#"} className={`${styles.navLink} ${navigationLink.id == activeLinkIdx ? "active" : null}`}>
                                             <img src={navigationLink.image} className={styles.navLinkIcon} alt={navigationLink.title}/>
                                             <span className={styles.navLinkText}>{navigationLink.title}</span>
                                         </a>

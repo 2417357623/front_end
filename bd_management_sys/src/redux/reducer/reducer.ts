@@ -7,7 +7,7 @@ const reducer = (state=deflateState,action) => {
         case "TOGGLE_SIDEBAR":
             return {
                 ...state,
-                isSidebarOpen : !state.isSidebarOpen
+                isSidebarOpen : action.value
             }
         default:
             // return throw new Error(`no matching "${action.type} action type`)

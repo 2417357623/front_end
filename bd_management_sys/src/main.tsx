@@ -24,28 +24,32 @@ import Page2 from './view/Home/Page2'
 import DataPage from "./view/DataPage/DataPage";
 import Login from "./view/Login";
 import {Navigate} from 'react-router-dom'
+import { Provider } from 'react-redux';
+import store from '../src/redux/store/store';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
+    <Provider store={store}>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Navigate to={"/login"} />} >
+                </Route>
+                <Route
+                    path="*"
+                    element={
+                        <App></App>
+                    }
+                />
+                <Route path="home" element={<Home />} >
+                    <Route path={"page1"} element={< Page1></Page1>} />
+                    <Route path={"page2"} element={< Page2></Page2>} />
+                </Route>
+                <Route path={"login"} element={<Login></Login>}>
+                </Route>
+                <Route path={"dataPage"} element={<DataPage></DataPage>}>
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    </Provider>
 
-      <BrowserRouter>
-          <Routes>
-              <Route path="/" element={<Navigate to={"/login"} />} >
-              </Route>
-              <Route
-                  path="*"
-                  element={
-                      <App></App>
-                  }
-              />
-              <Route path="home" element={<Home />} >
-                  <Route path={"page1"} element={< Page1></Page1>} />
-                  <Route path={"page2"} element={< Page2></Page2>} />
-              </Route>
-              <Route path={"login"} element={<Login></Login>}>
-              </Route>
-              <Route path={"dataPage"} element={<DataPage></DataPage>}>
-              </Route>
-          </Routes>
-      </BrowserRouter>
+
 )
-

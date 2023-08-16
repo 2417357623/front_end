@@ -1,0 +1,42 @@
+.mainContentTop{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.sidebarToggler{
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.sidebarToggler img{
+  width: 20px;
+}
+
+.contentTopTitle{
+  color: var(--clr-white);
+  font-size:20px;
+  font-weight: 600;
+}
+
+.contentTopBtn{
+    margin-left: 18px;
+
+}
+
+.contentTopBtn img{
+  width: 24px;
+}
+
+.contentTopBtn img:hover{
+  filter:brightness(0) invert(1);
+
+}
+
+.contentTopLeft{
+  display: flex;
+  align-items: center;
+
+}
