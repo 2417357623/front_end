@@ -35,5 +35,39 @@
     color: #8a8587;
   }
 
+  .cardLogoWrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cardLogo{
+    display: flex;
+  }
+
+  .logoShape1,.logoShape2{
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+  }
+
+  .logoShape1{
+    background-color: var(--clr-scarlet-v1);
+    margin-right: -15px;
+    z-index: 0;
+  }
+
+  .logoShape2{
+    background-color: var(--clr-yellow);
+
+  }
+}
+
+@media screen and (max-width: 768px){
+  .girdC1{
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+  }
 }
 
