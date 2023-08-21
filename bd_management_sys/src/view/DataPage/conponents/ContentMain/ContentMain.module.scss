@@ -1,3 +1,22 @@
 .mainContentHolder{
-
+  display: grid;
+  row-gap: 20px;
 }
+
+.contentGridOne{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  column-gap: 16px;
+}
+
+.contentGridTwo{
+   display: grid;
+   grid-template-columns: repeat(3,1fr);
+   column-gap: 16px;
+ }
+
+ .subgridTwo{
+   display: grid;
+   row-gap: 20px;
+   height: 100%;
+ }
