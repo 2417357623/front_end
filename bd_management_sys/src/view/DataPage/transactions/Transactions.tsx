@@ -4,7 +4,7 @@ import {iconsImgs} from "../../../utils/images";
 
 const Transactions = ()=>{
     return (
-        <div className={`girdOneItem gridCommon ${styles.gridC2}`}>
+        <div className={`gridOneItem gridCommon ${styles.gridC2}`}>
             <div className={"gridCTitle"}>
                 <h3 className={"gridCTitleText"}>transactions</h3>
                 <button className={"gridCTitleIcon"}>
