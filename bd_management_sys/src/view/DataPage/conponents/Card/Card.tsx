@@ -3,7 +3,7 @@ import {iconsImgs} from "../../../../utils/images";
 
 const Card = ()=>{
     return(
-        <div className={`${styles.gridOneItem} gridCommon ${styles.girdC1}`}>
+        <div className={`gridOneItem gridCommon ${styles.girdC1}`}>
             <div className={"gridCTitle"}>
                 <h3 className={"gridCTitleText"}>cards</h3>
                 <button className={"gridCTitleIcon"}>
