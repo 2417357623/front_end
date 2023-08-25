@@ -13,7 +13,8 @@ import App from './App.tsx'
 import {
     BrowserRouter,
     Routes,
-    Route} from "react-router-dom";
+    Route
+} from "react-router-dom";
 // import {lazy} from "react";
 // const Invoices = lazy(()=>import('./routes/Invoices.jsx'))
 // const Invoice = lazy(()=>import('./routes/Invoice.jsx'))
@@ -24,24 +25,30 @@ import Page2 from './view/Home/Page2'
 import DataPage from "./view/DataPage/DataPage";
 import Login from "./view/Login";
 import {Navigate} from 'react-router-dom'
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import store from '../src/redux/store/store';
+import {DevSupport} from "@react-buddy/ide-toolbox";
+import {ComponentPreviews, useInitial} from "./dev";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Navigate to={"/login"} />} >
+                <Route path="/" element={<Navigate to={"/login"}/>}>
                 </Route>
                 <Route
                     path="*"
                     element={
-                        <App></App>
+                        <DevSupport ComponentPreviews={ComponentPreviews}
+                                    useInitialHook={useInitial}
+                        >
+                            <App></App>
+                        </DevSupport>
                     }
                 />
-                <Route path="home" element={<Home />} >
-                    <Route path={"page1"} element={< Page1></Page1>} />
-                    <Route path={"page2"} element={< Page2></Page2>} />
+                <Route path="home" element={<Home/>}>
+                    <Route path={"page1"} element={< Page1></Page1>}/>
+                    <Route path={"page2"} element={< Page2></Page2>}/>
                 </Route>
                 <Route path={"login"} element={<Login></Login>}>
                 </Route>
@@ -50,6 +57,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             </Routes>
         </BrowserRouter>
     </Provider>
-
-
 )
