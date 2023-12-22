@@ -1,41 +1,35 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
-    // JavaScript 执行入口文件
-    entry: {
-        index: './src/index.js',
-        print: './src/print.js',
-    },
-    // devtool: 'inline-source-map',
-    output: {
-        // 把所有依赖的模块合并输出到一个 bundle.js 文件
-        filename: '[name].bundle.js',
-        // 输出文件都放到 dist 目录下
-        path: path.resolve(__dirname, './dist'),
-        clean: true,
-    },
-    devServer: {
-        port: '8081', // 设置端口号为8088
-        hot: true, // 文件修改后实时刷新
-        historyApiFallback: true, //不跳转
-        static: './dist'
-    },
-    mode:"development",
+    entry: "./src/main.jsx",
+    mode: "development",
     module: {
         rules: [
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
+                test: /\.(js|jsx)$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: "babel-loader",
+                options: { presets: ["@babel/env"] }
             },
-        ],
+            {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"]
+            }
+        ]
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            title: 'Development',
-        }),
-    ],
-    optimization: {
-        runtimeChunk: 'single',
+    resolve: { extensions: ["*", ".js", ".jsx"] },
+    output: {
+        path: path.resolve(__dirname, "dist/"),
+        publicPath: "/dist/",
+        filename: "bundle.js"
     },
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'public'),
+        },
+        compress: true,
+        port: 9000,
+    },
+    plugins: [new webpack.HotModuleReplacementPlugin()]
 };
