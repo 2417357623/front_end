@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="EslintConfiguration">
-    <work-dir-patterns value="$PROJECT_DIR$/WebpackTest/src" />
-    <custom-configuration-file used="true" path="$PROJECT_DIR$/WebpackTest/.eslintrc.js" />
+    <work-dir-patterns value="$PROJECT_DIR$/webpack_react_ts" />
+    <custom-configuration-file used="false" path="$PROJECT_DIR$/WebpackTest/.eslintrc.js" />
     <option name="fix-on-save" value="true" />
   </component>
 </project>
