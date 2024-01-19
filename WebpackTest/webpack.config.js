@@ -1,20 +1,34 @@
 const path = require('path')
 const webpack = require('webpack')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: './src/main.jsx',
   mode: 'development',
+  plugins: [
+    new MiniCssExtractPlugin({
+    filename: `[name]_[contenthash:8].css`,
+  })
+  ],
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel-loader',
-        options: { presets: ['@babel/env'] }
+        use: [
+          {
+          loader: 'babel-loader',
+            options: { presets: ['@babel/env'] }
+          },
+          {
+            loader:path.resolve('./src/loader.js')
+          }
+        ],
+
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'style-loader','css-loader']
       }
     ]
   },
@@ -32,5 +46,5 @@ module.exports = {
     port: 9000
   },
   devtool: 'eval-source-map',
-  plugins: [new webpack.HotModuleReplacementPlugin()]
+
 }

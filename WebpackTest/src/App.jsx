@@ -1,5 +1,7 @@
 import React from 'react'
+import './assets/global.css'
 
+var a  = 1;
 function App () {
   const test = () => {
     for (let i = 0; i < 100; i--) {
@@ -7,7 +9,7 @@ function App () {
     }
   }
   return (
-        <div>{'hello' + test()}</div>
+        <div className={'test'}>{'hello' + test() + "var"}</div>
   )
 }
 
