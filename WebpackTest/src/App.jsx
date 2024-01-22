@@ -1,5 +1,6 @@
 import React from 'react'
 import './assets/global.css'
+import  Hello from './component/Hello.tsx'
 
 var a  = 1;
 function App () {
@@ -9,7 +10,10 @@ function App () {
     }
   }
   return (
-        <div className={'test'}>{'hello' + test() + "var"}</div>
+    <>
+      <div className={'test'}>{'hello' + test() + "var"}</div>
+      <Hello name="TypeScript" enthusiasmLevel={10} />
+    </>
   )
 }
 

@@ -36,10 +36,18 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
+      },
+      {
+        test: /\.(ts|tsx)$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       }
     ]
   },
-  resolve: { extensions: ['.*', '.js', '.jsx'] },
+  resolve: {
+    extensions: ['.ts','.tsx' ,'.js', '.jsx','.*'],
+
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'static/js/[name].[hash].js',
@@ -51,6 +59,6 @@ module.exports = {
     compress: true,
     port: 9000
   },
-  devtool: 'eval-source-map',
+  devtool: 'inline-source-map',
 
 }
