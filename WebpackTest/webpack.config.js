@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 
 module.exports = {
-    entry: './src/main.jsx',
+    entry: './src/pages/index/main.jsx',
     mode: 'development',
     plugins: [
         new MiniCssExtractPlugin({
@@ -49,6 +49,12 @@ module.exports = {
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
+            {
+                // 增加对 SCSS 文件的支持
+                test: /\.scss$/,
+                // SCSS 文件的处理顺序为先 sass-loader 再 css-loader 再 style-loader
+                use: ['style-loader', 'css-loader', 'sass-loader'],
+            },
         ],
     },
     resolve: {
@@ -68,5 +74,8 @@ module.exports = {
         hot: true,
     },
     devtool: 'inline-source-map',
+    optimization: {
+        usedExports: true,
+    },
 
 };

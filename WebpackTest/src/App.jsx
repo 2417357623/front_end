@@ -1,10 +1,17 @@
 import React from 'react';
 import './assets/global.css';
-import Hello from './component/Hello.tsx';
+import styled from 'styled-components';
+import Header from './component/Header';
+import Heeder from 'component_1217';
+import styles from './App.module.scss';
+import {HashRouter as Router, Route, Routes} from 'react-router-dom';
 
-var a = 1;
+const MyButton = styled.a`
+    border: 1px solid #000;
+    border-radius: 4px;
+`;
 
-function App () {
+const App = () => {
     const env = process.env.NODE_ENV;
     console.log(env);
     const test = () => {
@@ -18,11 +25,16 @@ function App () {
 
     };
     return (
-        <>
-            <div className={'test'}>{'hello' + test() + 'var'}</div>
-            <Hello name="TypeScript" enthusiasmLevel={10} />
-        </>
+        <div className={styles.app}>
+            {/* <MyButton>styled-component</MyButton>*/}
+            <Heeder></Heeder>
+            <Router>
+                <Routes>
+                    <Route></Route>
+                </Routes>
+            </Router>
+        </div>
     );
-}
+};
 
 export default App;
