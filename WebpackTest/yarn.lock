@@ -2452,32 +2452,6 @@ common-path-prefix@^3.0.0:
   resolved "https://registry.npmmirror.com/common-path-prefix/-/common-path-prefix-3.0.0.tgz"
   integrity sha512-QE33hToZseCH3jS0qN96O/bSh3kaw/h+Tq7ngyY9eWDUnTlTNUyqfqvCXioLe5Na5jFsL78ra/wuBU4iuEgd4w==
 
-"component_1217@file:../component_lib":
-  version "1.0.8"
-  resolved "file:../component_lib"
-  dependencies:
-    "@ant-design/icons" "^5.3.4"
-    "@rollup/plugin-babel" "^6.0.4"
-    "@rollup/plugin-commonjs" "^25.0.7"
-    "@rollup/plugin-node-resolve" "^15.2.3"
-    "@rollup/plugin-strip" "^3.0.4"
-    "@rollup/plugin-typescript" "^11.1.6"
-    "@testing-library/jest-dom" "^5.17.0"
-    "@testing-library/react" "^13.4.0"
-    "@testing-library/user-event" "^13.5.0"
-    "@types/jest" "^27.5.2"
-    "@types/node" "^16.18.91"
-    "@types/react" "^18.2.67"
-    "@types/react-dom" "^18.2.22"
-    antd "^5.15.2"
-    autoprefixer "^10.4.19"
-    eslint "8.22.0"
-    react-scripts "5.0.1"
-    rollup-plugin-postcss "^4.0.2"
-    swr "^2.2.5"
-    typescript "^4.9.5"
-    web-vitals "^2.1.4"
-
 compressible@~2.0.16:
   version "2.0.18"
   resolved "https://registry.npmmirror.com/compressible/-/compressible-2.0.18.tgz"
