@@ -1,0 +1,7 @@
+import styleInject from '../../node_modules/style-inject/dist/style-inject.es.js';
+
+var css_248z = ".Header-module_nav__wkdv- {\n  height: 80px;\n  background-color: var(--nav-bg);\n  width: 100%;\n  position: fixed;\n  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.Header-module_navWrapper__k9rNS {\n  display: flex;\n  width: 100%;\n  justify-content: space-evenly;\n  align-items: center;\n}\n.Header-module_navWrapper__k9rNS .Header-module_navLogo__Sb06O {\n  font-size: 1.5rem;\n  font-family: var(--secondary-font-family);\n}\n.Header-module_navWrapper__k9rNS .Header-module_navMenu__eN91T {\n  display: flex;\n  align-items: center;\n}\n.Header-module_navWrapper__k9rNS .Header-module_navMenu__eN91T npm whoami .Header-module_items__NtHE2 {\n  margin-right: 20px;\n  margin-left: 20px;\n  font-size: 18px;\n  position: relative;\n  cursor: pointer;\n  color: var(--text-color);\n}\n.Header-module_navWrapper__k9rNS .Header-module_navMenu__eN91T .Header-module_btns__6fX1q {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.Header-module_navWrapper__k9rNS .Header-module_navMenu__eN91T .Header-module_btns__6fX1q .Header-module_switch__EID8w {\n  margin-left: 10px;\n  margin-right: 20px;\n}";
+var styles = {"nav":"Header-module_nav__wkdv-","navWrapper":"Header-module_navWrapper__k9rNS","navLogo":"Header-module_navLogo__Sb06O","navMenu":"Header-module_navMenu__eN91T","items":"Header-module_items__NtHE2","btns":"Header-module_btns__6fX1q","switch":"Header-module_switch__EID8w"};
+styleInject(css_248z);
+
+export { styles as default };
