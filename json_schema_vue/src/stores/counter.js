@@ -1,12 +1,20 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import ExportModule from '~/components/pages/ExportModule.vue'
+import { Download } from '@element-plus/icons-vue';
 
-export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+export const useStore = defineStore('store',() => {
+  const module = ref(  {
+    index:'1',
+    ename:ExportModule,
+    cname:'导出',
+    icon:Download
+  },)
+  const changeValue = (newValue) =>{
+    module.value = newValue
   }
 
-  return { count, doubleCount, increment }
+  return {
+    module,changeValue
+  }
 })

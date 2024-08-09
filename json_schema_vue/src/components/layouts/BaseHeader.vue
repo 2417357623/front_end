@@ -1,8 +1,11 @@
-<script lang="ts" setup>
+<script lang="jsx" setup>
 </script>
 
 <template>
-  <el-menu class="el-menu-demo" mode="horizontal">
+  <el-menu
+      class="el-menu-demo"
+      mode="horizontal"
+  >
     <el-menu-item index="1">Element Plus</el-menu-item>
     <el-sub-menu index="2">
       <template #title>Workspace</template>
