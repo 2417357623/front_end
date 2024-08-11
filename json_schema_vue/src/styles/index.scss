@@ -23,3 +23,9 @@ code {
   background-color: var(--ep-color-primary-light-9);
   color: var(--ep-color-primary);
 }
+
+/* 这是一个 SCSS 示例 */
+.ep-button {
+  height: 40px;  // 设置你想要的高度
+  line-height: 40px;  // 如果需要对齐文本，可以设置相同的 line-height
+}

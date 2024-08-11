@@ -1,22 +1,16 @@
 <template>
   <div>
     <TitleBar />
-    <div class='main-area'>
-      <component :is='store.module.ename' />
-    </div>
+    <MainContent></MainContent>
   </div>
 </template>
 
 <script setup>
-import TitleBar from '@/components/titleBar/TitleBar.vue';
-import ExportModule from '@/components/pages/ExportModule.vue';
-import { useStore } from '@/stores/counter.js';
-
-const store = useStore();
-
+import TitleBar from '@/components/BaseMain/TitleBar.vue';
+import MainContent from '@/components/BaseMain/MainContent.vue';
 </script>
 
-<style>
+<style scoped>
 .main-area {
   padding: 16px;
 }

@@ -46,13 +46,13 @@ const menuItems = [
   },
   {
     index: '3',
-    ename: GenerateModule,
+    ename: ModifyModule,
     cname: '修改工具',
     icon: EditPen,
   },
   {
     index: '4',
-    ename: ModifyModule,
+    ename: GenerateModule,
     cname: '制品生成',
     icon: VideoPlay
   },
