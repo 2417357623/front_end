@@ -1,26 +1,29 @@
 <template>
-  <div class='generateItem'>
-    <el-select
-        v-model='value'
-        placeholder='Select'
-        size='large'
-        style='width: 240px'
-    >
-      <el-option
-          v-for='item in options'
-          :key='item.value'
-          :label='item.label'
-          :value='item.value'
-      />
-    </el-select>
-    <el-button>生成</el-button>
-  </div>
-  <div>
-    <el-steps style="max-width: 600px" :active="active" finish-status="success">
-      <el-step title="Step 1" />
-      <el-step title="Step 2" />
-      <el-step title="Step 3" />
-    </el-steps>
+  <div class='mainArea'>
+    <div class='generateItem'>
+      <el-select
+          v-model='value'
+          placeholder='Select'
+          size='medium'
+          style='width: 240px'
+      >
+        <el-option
+            v-for='item in options'
+            :key='item.value'
+            :label='item.label'
+            :value='item.value'
+        />
+      </el-select>
+      <el-button>生成</el-button>
+    </div>
+    <div class='stepContent'>
+      <el-steps :active="active" finish-status="success">
+        <el-step title="Step 1" />
+        <el-step title="Step 2" />
+        <el-step title="Step 3" />
+        <el-step title="Step 4" />
+      </el-steps>
+    </div>
   </div>
 </template>
 
@@ -57,5 +60,10 @@ const options = [
     gap: 24px;
     align-content: center;
     justify-content: flex-start;
+    margin-bottom: 48px;
+  }
+
+  .stepContent {
+    padding : 0 60px 0 60px
   }
 </style>

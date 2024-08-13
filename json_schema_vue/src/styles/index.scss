@@ -26,6 +26,13 @@ code {
 
 /* 这是一个 SCSS 示例 */
 .ep-button {
-  height: 40px;  // 设置你想要的高度
-  line-height: 40px;  // 如果需要对齐文本，可以设置相同的 line-height
+  height: 32px;  // 设置你想要的高度
+  line-height: 32px;  // 如果需要对齐文本，可以设置相同的 line-height
+}
+
+.inputCompose {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 24px;
 }

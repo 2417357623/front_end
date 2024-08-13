@@ -25,7 +25,7 @@ import {
   EditPen
 } from '@element-plus/icons-vue';
 
-import ExportModule from '~/components/pages/ExportModule.vue';
+import ExportModule from '@/components/pages/ExportModule/ExportModule.vue';
 import ImportModule from '~/components/pages/ImportModule.vue';
 import GenerateModule from '~/components/pages/GenerateModule.vue'
 import ModifyModule from '~/components/pages/ModifyModule.vue'

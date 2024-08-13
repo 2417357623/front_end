@@ -3,7 +3,7 @@
     <BaseHeader></BaseHeader>
     <div class="flex main-container">
       <BaseSide></BaseSide>
-      <div style='width: 100%'>
+      <div style='flex-grow: 1'>
         <BaseMain />
       </div>
     </div>

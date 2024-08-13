@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import ExportModule from '~/components/pages/ExportModule.vue'
+import ExportModule from '@/components/pages/ExportModule/ExportModule.vue'
 import { Download } from '@element-plus/icons-vue';
 
 export const useStore = defineStore('store',() => {
