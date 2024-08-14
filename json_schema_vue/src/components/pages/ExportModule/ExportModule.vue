@@ -68,9 +68,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref ,getCurrentInstance} from 'vue';
 import { Download } from '@element-plus/icons-vue';
 import CommonProduct from '@/components/pages/ExportModule/CommonProduct.vue';
+import myApi from '@/api/index.js';
 
 const menuItems = [
   {
@@ -171,6 +172,7 @@ const handleClose = (key, keyPath) => {
 const openProductGrid = (item) => {
   product.value = item.ename;
 };
+
 
 </script>
 

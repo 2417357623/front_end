@@ -92,4 +92,15 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    port: 4000, // 端口号
+    open: false, // 是否自动开启浏览器
+    proxy: {
+      '/xdata-succeed-mill': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        ws: true,
+      },
+    },
+  }
 })
