@@ -24,5 +24,5 @@
 <script setup>
 import BaseHeader from '@/components/layouts/BaseHeader.vue';
 import BaseSide from '@/components/layouts/BaseSide.vue';
-import BaseMain from '@/components/layouts/BaseMain.vue';
+import BaseMain from '@/components/layouts/BaseMain/BaseMain.vue';
 </script>

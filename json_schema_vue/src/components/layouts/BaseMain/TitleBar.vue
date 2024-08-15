@@ -3,7 +3,7 @@
 <template>
   <div class='content'>
     <div class='title'>
-      {{store.module.cname}}
+      {{currentMenu.cname}}
     </div>
   </div>
 </template>
@@ -23,8 +23,10 @@
 </style>
 
 <script setup>
+import { storeToRefs } from 'pinia';
+import { useModuleStore } from '@/stores/moduleStore.js';
+const moduleStore = useModuleStore();
 
-import { useStore } from '@/stores/counter.js';
+const {currentMenu} = storeToRefs(moduleStore)
 
-const store = useStore();
 </script>

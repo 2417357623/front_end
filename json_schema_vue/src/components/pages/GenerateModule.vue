@@ -4,7 +4,7 @@
       <el-select
           v-model='value'
           placeholder='Select'
-          size='medium'
+          size='default'
           style='width: 240px'
       >
         <el-option

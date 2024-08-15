@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import TitleBar from '@/components/BaseMain/TitleBar.vue';
-import MainContent from '@/components/BaseMain/MainContent.vue';
+import TitleBar from '@/components/layouts/BaseMain/TitleBar.vue';
+import MainContent from '@/components/layouts/BaseMain/MainContent.vue';
 </script>
 
 <style scoped>

@@ -11,6 +11,7 @@
   <div class='gridArea'>
     <div class='table-content'>
       <el-table :data="tableData" style="width: 100%">
+        <el-table-column type="selection" width="180" />
         <el-table-column prop="date" label="Date" width="180" />
         <el-table-column prop="name" label="Name" width="180" />
         <el-table-column prop="address" label="Address" />
@@ -21,21 +22,46 @@
 
 <script setup>
 
-defineProps({
+const props = defineProps({
   product: String
 });
 
-//在子组件内获取table数据，queryItem数据,现在为假数据
-const queryItems = [
-  {
-    cname:"中文名称",
-    ename: "cname"
-  },
-  {
-    cname: "英文名称",
-    ename: "ename"
+const queryItems = ref([])
+
+onMounted(()=>{
+  getData(props.product)
+})
+
+const getData = (key) => {
+  if (key == 'batch'){
+     queryItems.value = [
+      {
+        cname:"中文名称",
+        ename: "cname"
+      },
+      {
+        cname: "英文名称",
+        ename: "ename"
+      }
+    ]
   }
-]
+
+  if(key == 'table'){
+     queryItems.value = [
+      {
+        cname:"表",
+        ename: "cname"
+      },
+      {
+        cname: "表",
+        ename: "ename"
+      }
+    ]
+  }
+}
+
+//在子组件内获取table数据，queryItem数据,现在为假数据
+
 
 
 const tableData = [

@@ -9,7 +9,7 @@
     <el-menu-item
         v-for='item in menuItems'
         :index='item.index'
-        @click='openModule(item)'>
+        @click='setActiveMenuItem(item.ename)'>
       <component :is='item.icon' />
       <template #title>{{ item.cname }}</template>
     </el-menu-item>
@@ -18,45 +18,12 @@
 
 <script lang='js' setup>
 import { ref } from 'vue';
-import {
-  Download,
-  Upload,
-  VideoPlay,
-  EditPen
-} from '@element-plus/icons-vue';
+import { useModuleStore } from '@/stores/moduleStore.js';
+import { storeToRefs } from 'pinia';
 
-import ExportModule from '@/components/pages/ExportModule/ExportModule.vue';
-import ImportModule from '~/components/pages/ImportModule.vue';
-import GenerateModule from '~/components/pages/GenerateModule.vue'
-import ModifyModule from '~/components/pages/ModifyModule.vue'
-import { useStore } from '@/stores/counter.js';
-
-const menuItems = [
-  {
-    index: '1',
-    ename: ExportModule,
-    cname: '导出',
-    icon: Download,
-  },
-  {
-    index: '2',
-    ename: ImportModule,
-    cname: '导入',
-    icon: Upload,
-  },
-  {
-    index: '3',
-    ename: ModifyModule,
-    cname: '修改工具',
-    icon: EditPen,
-  },
-  {
-    index: '4',
-    ename: GenerateModule,
-    cname: '制品生成',
-    icon: VideoPlay
-  },
-];
+const moduleStore = useModuleStore()
+const { menuItems, activeMenuItem,currentMenu} = storeToRefs(moduleStore)
+const { setActiveMenuItem } = moduleStore
 
 const isCollapse = ref(true);
 const handleOpen = (key, keyPath) => {
@@ -64,11 +31,6 @@ const handleOpen = (key, keyPath) => {
 };
 const handleClose = (key, keyPath) => {
   console.log(key, keyPath);
-};
-
-const openModule = (moduleValue) => {
-  const store = useStore();
-  store.changeValue(moduleValue);
 };
 
 </script>

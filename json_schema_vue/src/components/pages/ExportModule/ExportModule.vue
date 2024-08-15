@@ -8,11 +8,17 @@
         <el-select
             v-model='projectValue'
             placeholder='Select'
-            size='medium'
+            size='default'
             style='width: 240px'
+            filterable
+            remote
+            clearable
+            :remote-method='remoteMethod'
+            remote-show-suffix
+            :loading='loading'
         >
           <el-option
-              v-for='item in projectItems'
+              v-for='item in options'
               :key='item.value'
               :label='item.label'
               :value='item.value'
@@ -26,14 +32,14 @@
         <el-select
             v-model='productValue'
             placeholder='Select'
-            size='medium'
+            size='default'
             style='width: 240px'
         >
           <el-option
-              v-for='item in productItems'
-              :key='item.value'
-              :label='item.label'
-              :value='item.value'
+              v-for='item in productStore.menuItems'
+              :key='item.ename'
+              :label='item.cname'
+              :value='item.ename'
           />
         </el-select>
       </div>
@@ -41,22 +47,25 @@
     <div class='contentArea'>
       <div class='menuArea'>
         <el-menu
-            default-active='1'
+            :default-active='productValue'
             class='el-menu-vertical-demo'
             @open='handleOpen'
             @close='handleClose'
             style='height: 100%'
+            @select="handleSelect"
         >
           <el-menu-item
-              v-for='item in menuItems'
-              :index='item.index'
-              @click='openProductGrid(item.ename)'>
-              {{item.cname }}
+              v-for='item in  productStore.menuItems'
+              :index='item.ename'
+              >
+            {{ item.cname }}
           </el-menu-item>
         </el-menu>
       </div>
       <div class='queryArea'>
-        <CommonProduct :product='product' />
+        <keep-alive>
+          <CommonProduct :product='activeProductMenuItem' :key='activeProductMenuItem'/>
+        </keep-alive>
       </div>
       <div class='selectedProductArea'>
         <div style='display: flex;align-content: center'>
@@ -68,99 +77,60 @@
 </template>
 
 <script setup>
-import { ref ,getCurrentInstance} from 'vue';
+import { ref, getCurrentInstance } from 'vue';
 import { Download } from '@element-plus/icons-vue';
 import CommonProduct from '@/components/pages/ExportModule/CommonProduct.vue';
 import myApi from '@/api/index.js';
+import { EiInfo } from '@/utils/eiinfo.js';
+import { useProductStore } from '@/stores/productStore.js';
 
-const menuItems = [
-  {
-    index: '1',
-    ename: 'batch',
-    cname: '批式任务',
-    icon: Download,
-  },
-  {
-    index: '2',
-    ename: 'table',
-    cname: '表',
-    icon: Download,
-  },
-];
 
 const projectValue = ref('');
-const productValue = ref('');
-const queryValue = ref('');
+const productValue = ref('batch');
 
-const curProduct = ref('');
-const product = ref('');
+const list = ref([]);
+const options = ref();
+const loading = ref(false);
 
-const projectItems = [
-  {
-    value: 'Eplat',
-    label: 'Eplat',
-  },
-  {
-    value: 'EplatEE',
-    label: 'Eplat2',
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-];
-const productItems = [
-  {
-    value: '批示任务',
-    label: '批示任务',
-  },
-  {
-    value: '表管理',
-    label: '表管理',
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-];
-const selectionItems = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-];
+const activeProductMenuItem = ref('batch');
+
+const productStore = useProductStore()
+
+onMounted(
+    () => {
+      loading.value = true;
+      let queryInfo = new EiInfo();
+      // queryInfo.set('inqu_status-0-projectEname', query);
+      myApi.getProjectInfo(queryInfo).then(res => {
+            let resBlock = res.getBlock('result');
+            for (let i = 0; i < resBlock.rows.length; i++) {
+              let map = {
+                value: resBlock.getCell(i, 'projectName'),
+                label: resBlock.getCell(i, 'projectEname') + '|' + resBlock.getCell(i, 'projectAlias'),
+              };
+              list.value.push(map);
+            }
+            options.value = list.value
+            loading.value = false;
+          }
+      )
+
+
+    },
+);
+
+const remoteMethod = (query) => {
+  if(loading.value == true){return;}
+  if (query) {
+    loading.value = true;
+    options.value = list.value.filter((item) =>
+        item.label.toLowerCase().includes(query.toLowerCase()),
+    );
+    loading.value = false;
+  }else {
+    options.value = list.value;
+  }
+};
 
 const handleOpen = (key, keyPath) => {
   console.log(key, keyPath);
@@ -169,10 +139,9 @@ const handleClose = (key, keyPath) => {
   console.log(key, keyPath);
 };
 
-const openProductGrid = (item) => {
-  product.value = item.ename;
-};
-
+const handleSelect = (index)=>{
+  activeProductMenuItem.value = index;
+}
 
 </script>
 

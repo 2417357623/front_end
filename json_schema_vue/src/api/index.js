@@ -5,7 +5,7 @@ const getBatchInfo = (info) =>{
 }
 
 const  getProjectInfo = (info) =>{
-  return request.send("/BEDD10/query", info)
+  return request.send("/BEDD00/queryWorkSpaceNameList", info)
 }
 
 const myApi = {
