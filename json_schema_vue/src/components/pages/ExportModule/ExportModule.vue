@@ -6,7 +6,7 @@
           工作空间
         </div>
         <el-select
-            v-model='projectValue'
+            v-model='projectName'
             placeholder='Select'
             size='default'
             style='width: 240px'
@@ -19,7 +19,6 @@
         >
           <el-option
               v-for='item in options'
-              :key='item.value'
               :label='item.label'
               :value='item.value'
           />
@@ -52,19 +51,19 @@
             @open='handleOpen'
             @close='handleClose'
             style='height: 100%'
-            @select="handleSelect"
+            @select='handleSelect'
         >
           <el-menu-item
               v-for='item in  productStore.menuItems'
               :index='item.ename'
-              >
+          >
             {{ item.cname }}
           </el-menu-item>
         </el-menu>
       </div>
       <div class='queryArea'>
         <keep-alive>
-          <CommonProduct :product='activeProductMenuItem' :key='activeProductMenuItem'/>
+          <CommonProduct :product='activeProductMenuItem' :key='activeProductMenuItem' :projectName='projectName' />
         </keep-alive>
       </div>
       <div class='selectedProductArea'>
@@ -83,9 +82,10 @@ import CommonProduct from '@/components/pages/ExportModule/CommonProduct.vue';
 import myApi from '@/api/index.js';
 import { EiInfo } from '@/utils/eiinfo.js';
 import { useProductStore } from '@/stores/productStore.js';
+import { ElNotification } from 'element-plus';
 
 
-const projectValue = ref('');
+const projectName = ref('');
 const productValue = ref('batch');
 
 const list = ref([]);
@@ -94,7 +94,7 @@ const loading = ref(false);
 
 const activeProductMenuItem = ref('batch');
 
-const productStore = useProductStore()
+const productStore = useProductStore();
 
 onMounted(
     () => {
@@ -110,24 +110,32 @@ onMounted(
               };
               list.value.push(map);
             }
-            options.value = list.value
+            options.value = list.value;
             loading.value = false;
-          }
-      )
-
+            if (options.value.length > 0) {
+              projectName.value = options.value[0].value;
+            }
+          },
+      );
 
     },
 );
 
+watch(productValue, (newVal) => {
+  activeProductMenuItem.value = newVal;
+});
+
 const remoteMethod = (query) => {
-  if(loading.value == true){return;}
+  if (loading.value == true) {
+    return;
+  }
   if (query) {
     loading.value = true;
     options.value = list.value.filter((item) =>
         item.label.toLowerCase().includes(query.toLowerCase()),
     );
     loading.value = false;
-  }else {
+  } else {
     options.value = list.value;
   }
 };
@@ -139,9 +147,9 @@ const handleClose = (key, keyPath) => {
   console.log(key, keyPath);
 };
 
-const handleSelect = (index)=>{
+const handleSelect = (index) => {
   activeProductMenuItem.value = index;
-}
+};
 
 </script>
 

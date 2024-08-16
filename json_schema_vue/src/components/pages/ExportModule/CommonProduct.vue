@@ -1,20 +1,17 @@
 <template>
   <div class='queryArea'>
-    <div
-        v-for='item in queryItems'
-        class='inputCompose'
-    >
-      <div style='white-space: nowrap'>{{ item.cname }}</div>
-      <el-input v-model='item.ename'></el-input>
-    </div>
+    <component :is='curComponent' v-model='queryInfo' :projectName='projectName'/>
   </div>
   <div class='gridArea'>
     <div class='table-content'>
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column type="selection" width="180" />
-        <el-table-column prop="date" label="Date" width="180" />
-        <el-table-column prop="name" label="Name" width="180" />
-        <el-table-column prop="address" label="Address" />
+      <el-table :data='tableData' style='width: 100%' v-loading="loading">
+        <el-table-column type='selection' width='50' />
+        <el-table-column
+            v-for='column in tableColumn'
+            :prop='column.prop'
+            :label='column.label'
+            :width='column.width'
+        ></el-table-column>
       </el-table>
     </div>
   </div>
@@ -22,70 +19,74 @@
 
 <script setup>
 
+import { EiInfo } from '~/utils/eiinfo.js';
+import myApi from '@/api';
+import BatchQuery from '~/components/pages/ExportModule/queryArea/BatchQuery.vue';
+
 const props = defineProps({
-  product: String
+  product: String,
+  projectName : String
 });
 
-const queryItems = ref([])
+const queryInfo = ref({});
+const tableData = ref([]);
+const tableColumn = ref([]);
+const curComponent = shallowRef()
+const loading = ref(false)
 
-onMounted(()=>{
+onMounted(() => {
+  getBaseData(props.product)
+});
+
+watch(queryInfo,(newValue)=>{
+  loading.value = true;
   getData(props.product)
 })
 
-const getData = (key) => {
-  if (key == 'batch'){
-     queryItems.value = [
+//获取制品列信息和制品对应的查询区域组件
+const getBaseData = (key) => {
+  if(key == 'batch'){
+    tableColumn.value = [
       {
-        cname:"中文名称",
-        ename: "cname"
+        prop: 'taskName',
+        label: '任务名称',
+        width: '180',
       },
       {
-        cname: "英文名称",
-        ename: "ename"
-      }
-    ]
-  }
-
-  if(key == 'table'){
-     queryItems.value = [
-      {
-        cname:"表",
-        ename: "cname"
+        prop: 'desc',
+        label: '任务描述',
+        width: '180',
       },
       {
-        cname: "表",
-        ename: "ename"
-      }
+        prop: 'releaseStatus',
+        label: '发布状态',
+        width: '180',
+      },
+      {
+        prop: 'taskType',
+        label: '任务类型',
+        width: '180',
+      },
     ]
+    curComponent.value = BatchQuery
   }
 }
 
-//在子组件内获取table数据，queryItem数据,现在为假数据
-
-
-
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
+const getData = (key) => {
+  if (key == 'batch') {
+    let info = new EiInfo();
+    Object.entries(queryInfo.value).forEach(([key, value]) => {
+      info.set(`inqu_status-0-${key}`, value);
+    });
+    info.set("result-limit", 10)
+    info.set("result-offset", 0)
+    myApi.getBatchInfo(info).then((res) => {
+      let resBlock = res.getBlock('result');
+      tableData.value = resBlock.getMappedRows();
+      loading.value = false;
+    });
+  }
+};
 
 
 </script>
