@@ -1,3 +1,5 @@
+//这个文件撰文用于element-plus的样式覆盖和工作空间的修改
+
 $--colors: (
   "primary": (
     "base": rgb(98, 156, 251),
@@ -33,7 +35,7 @@ $--colors: (
 );
 
 // if you want to import all
-// @use "element-plus/theme-chalk/src/index.scss" as *;
+
 
 // You can comment it to hide debug info.
 // @debug $--colors;

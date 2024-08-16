@@ -16,7 +16,6 @@ export const useProductStore = defineStore('productStore', ()=>{
   ]);
 
   const activeMenuItem = ref('批示任务');
-
   const setActiveMenuItem = (key) => {
     activeMenuItem.value = key
   }
