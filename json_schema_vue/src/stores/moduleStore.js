@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import ExportModule from '@/components/pages/ExportModule/ExportModule.vue'
+import ExportModule from '@/components/pages/ExportModule/index.vue'
 import ImportModule from '@/components/pages/ImportModule.vue';
 import ModifyModule from '@/components/pages/ModifyModule.vue';
 import GenerateModule from '@/components/pages/GenerateModule.vue';
