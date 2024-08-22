@@ -30,7 +30,7 @@ const desc = ref();
 const taskType = ref();
 const releaseStatus = ref();
 
-const model = defineModel()
+const queryInfo = defineModel()
 
 const props = defineProps(['projectName'])
 
@@ -45,7 +45,7 @@ const query = () => {
     return;
   }
 
-  model.value = {
+  queryInfo.value = {
       taskName: taskName.value,
       desc: desc.value,
       taskType: taskType.value,

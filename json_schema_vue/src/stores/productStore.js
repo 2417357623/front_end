@@ -6,6 +6,7 @@ import myApi from '@/api/index.js';
 export const useProductStore = defineStore('productStore', ()=>{
   const productItems = shallowRef([
     {
+      //根据index判断唯一制品，和ename一致
       index:"batch",
       ename: 'batch',
       cname: '批式任务',
@@ -23,11 +24,6 @@ export const useProductStore = defineStore('productStore', ()=>{
           width: '',
         },
         {
-          prop: 'releaseStatus',
-          label: '发布状态',
-          width: '',
-        },
-        {
           prop: 'taskType',
           label: '任务类型',
           width: '',
@@ -38,9 +34,10 @@ export const useProductStore = defineStore('productStore', ()=>{
       //查询数据调用的接口
       getDataMethod: myApi.getBatchInfo,
       //已选择的制品里，要显示的列的prop
-      // treeShowInfo:"taskName"
+      treeShowInfo:"taskName"
     },
     {
+      index:'table',
       ename: 'table',
       cname: '表',
       icon: Download,
@@ -49,11 +46,16 @@ export const useProductStore = defineStore('productStore', ()=>{
 
   const incrementIndex = ref(0);
 
+  //el-table 和 el-tree 的联动数据
+  const selectionItemsForTable = ref([])
+  const selectionItemsForTree = ref([])
+
+
   const indexAddOne = ()=>{
     incrementIndex.value++
   }
 
-  const activeMenuItem = ref('批示任务');
+  const activeMenuItem = ref('批式任务');
 
   const setActiveMenuItem = (key) => {
     activeMenuItem.value = key
@@ -64,7 +66,9 @@ export const useProductStore = defineStore('productStore', ()=>{
     activeMenuItem,
     setActiveMenuItem,
     incrementIndex,
-    indexAddOne
+    indexAddOne,
+    selectionItemsForTree,
+    selectionItemsForTable
   }
 
 })

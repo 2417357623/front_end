@@ -102,5 +102,8 @@ export default defineConfig({
         ws: true,
       },
     },
+  },
+  build: {
+    sourcemap: true, // 确保 sourcemap 启用
   }
 })

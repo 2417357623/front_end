@@ -4,7 +4,7 @@
 //由于element自动导入功能出现问题，部分样式丢失，所以需要手动导入，如何手动导入，就是去找element的介绍。由于我的使用了工作空间（仅仅对scss文件做覆盖）和scss文件，
 // 所以要导入的是scss的包，在node_modules中找到element-plus/theme-chalk/src/notification.scss文件，然后导入就可以了。
 //这个文件是跟样式文件，做全局的管理。
-@use "element-plus/theme-chalk/src/notification.scss" as *;
+@use "element-plus/theme-chalk/src/index.scss" as *;
 // :root {
 //   --ep-color-primary: red;
 // }
