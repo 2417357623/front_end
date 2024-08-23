@@ -47,8 +47,23 @@ export const useProductStore = defineStore('productStore', ()=>{
   const incrementIndex = ref(0);
 
   //el-table 和 el-tree 的联动数据
-  const selectionItemsForTable = ref([])
-  const selectionItemsForTree = ref([])
+  const createObj = ()=>{
+    let obj = {}
+    productItems.value.map((item)=>{
+      obj[item.index] = []
+    })
+    return obj
+  }
+
+  //一定要在响应式对象创建的时候完成数据的初始化
+  //数据格式{batch:[{uuid:11,name:11},{}],table:[]}
+  const tableSelectedRows = ref(createObj())
+  //数据格式{batch:["111","222"],table:[]}
+  const tableSelectedIndex = ref(createObj())
+
+  const treeSelectedRows = ref([])
+  const treeSelectedIndex = ref([])
+
 
 
   const indexAddOne = ()=>{
@@ -61,14 +76,17 @@ export const useProductStore = defineStore('productStore', ()=>{
     activeMenuItem.value = key
   }
 
+
   return{
     productItems,
     activeMenuItem,
     setActiveMenuItem,
     incrementIndex,
     indexAddOne,
-    selectionItemsForTree,
-    selectionItemsForTable
+    treeSelectedRows,
+    tableSelectedRows,
+    tableSelectedIndex,
+    treeSelectedIndex
   }
 
 })

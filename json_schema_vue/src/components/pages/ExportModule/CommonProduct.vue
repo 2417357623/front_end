@@ -53,37 +53,68 @@ const tableData  = ref([])
 const tableColumn = ref([]);
 const curComponent = shallowRef();
 const loading = ref(false);
-const tableAllSelectedIndex = ref([])
+
 
 const productStore = useProductStore();
+const tableSelectedIndex = productStore.tableSelectedIndex
+const treeSelectedIndex = productStore.treeSelectedIndex
 const multipleTableRef = ref();
 //数组,[{index:"1",label:'222'},{index:"2",label:'222'}]
-const selectionItemsForTree = productStore.selectionItemsForTree;
-const selectionItemsForTable = productStore.selectionItemsForTable;
+const treeSelectedRows = productStore.treeSelectedRows;
+const tableSelectedRows = productStore.tableSelectedRows;
+
+
+//不同制品获取表格信息的统一配置
+const curProductData = productStore.productItems.find((item) => item.index == props.product);
+/*Getter 不应有副作用​
+计算属性的 getter 应只做计算而没有任何其他的副作用，这一点非常重要，请务必牢记。举例来说，不要改变其他状态、在 getter 中做异步请求或者更改 DOM！一个计算属性的声明中描述的是如何根据其他值派生一个值。因此 getter 的职责应该仅为计算和返回该值。在之后的指引中我们会讨论如何使用侦听器根据其他响应式状态的变更来创建副作用。
+
+避免直接修改计算属性值​
+从计算属性返回的值是派生状态。可以把它看作是一个“临时快照”，每当源状态发生变化时，就会创建一个新的快照。更改快照是没有意义的，因此计算属性的返回值应该被视为只读的，并且永远不应该被更改——应该更新它所依赖的源状态以触发新的计算。*/
+//所以这样做事错的，响应式对象里的key的值就是响应式的，但不要想着赋给新值
+// curSelectedIndex.value = tableSelectedIndex[curProductData.index]
+// const curSelectedRows = computed(()=>tableSelectedRows[curProductData.index])
 
 onMounted(() => {
   getBaseData();
 });
-
-//每次查询之后，更新表格数据，并且勾选已选择的制品
-watch(queryInfo, async (newValue) => {
-  loading.value = true;
-  await getData();
-  handleTreeDataChange(selectionItemsForTree)
-});
-
-watch(selectionItemsForTable,(newVal)=>{
-  handleTreeDataChange(newVal)
-})
-
-//不同制品获取表格信息的统一配置
-const curProductData = productStore.productItems.find((item) => item.index == props.product);
 
 //获取制品列信息和制品对应的查询区域组件
 const getBaseData = () => {
   tableColumn.value = curProductData.column;
   curComponent.value = curProductData.curComponent;
 };
+
+//watch侦听，只有在里面的监听值是reactive的时候才会侦听该对象内部属性的变化，如果是ref那属性值变化也不会触发监听
+//下面这种情况也会触发监听，只要数据变了都会监听到
+// const count = reactive({
+//   a:1
+// })
+// watch(count,()=>{
+//   console.log(2)
+// })
+// function increment() {
+//   let array = 1
+//   count.a = 0;
+//   count.a = 1
+// }
+watch((tableSelectedIndex),(newVal)=>{
+  tableSelectedRows[curProductData.index].length = 0
+  tableSelectedRows[curProductData.index].push(...tableData.value.filter((item) => newVal[curProductData.index].includes(item.uuid)))
+})
+
+//每次查询之后，更新表格数据，并且勾选已选择的制品
+watch(queryInfo, async (newValue) => {
+  loading.value = true;
+  await getData();
+  setCheckData()
+});
+
+//注意，你不能直接侦听响应式对象的属性值
+watch(treeSelectedIndex,(newVal)=>{
+  handleTreeDataChange(newVal)
+})
+
 
 //获取列表数据
 const getData = async () => {
@@ -110,53 +141,45 @@ const getData = async () => {
 
 //当行数据选择时，把数据提供给已选制品栏
 const handleSelectionChange = (selection) => {
+  tableSelectedIndex[curProductData.index].length = 0;
   //更新已勾选列表
   selection.map((item)=>{
-    tableAllSelectedIndex.value.length = 0;
-    tableAllSelectedIndex.value.push(item.uuid)
+    tableSelectedIndex[curProductData.index].push(item.uuid)
   })
-  //更新传递给el-tree的数据
-  let childrenArray = [];
-  selection.map((item) => {
-    let map = {};
-    map['label'] = item[curProductData.treeShowInfo];
-    map['index'] = item['uuid'];
-    childrenArray.push(map);
-  });
-  let selectedInfo =
-      {
-        index:curProductData.index,
-        label: curProductData.cname,
-        children: childrenArray,
-      };
-  let productionIsExist = selectionItemsForTree.find((item) => item.label === curProductData.cname);
-  if(productionIsExist){
-    selectionItemsForTree.find((item) => item.label === curProductData.cname).children = childrenArray
-  }else {
-    selectionItemsForTree.push(selectedInfo);
-  }
-
 };
 
 //根据树传来的数据，改变已勾选的列
-const handleTreeDataChange = (newVal)=> {
-  let rows = newVal.find((item) => item.index === props.product)?.children
-  if (rows) {
-    tableAllSelectedIndex.value = rows.map(item => item.index)
-    setCheckData();
-  }
+const handleTreeDataChange = (indexInfo)=> {
+
+  let array = tableSelectedIndex[curProductData.index].filter((childIndex)=> indexInfo.includes(childIndex))
+  // if(!arraysEqual(array,tableSelectedIndex[curProductData.index])){
+  //   tableSelectedIndex[curProductData.index].length = 0
+  //   tableSelectedIndex[curProductData.index].push(...array)
+  //   setCheckData();
+  // }
+  tableSelectedIndex[curProductData.index].splice(0, tableSelectedIndex[curProductData.index].length, ...array);
+  setCheckData();
 }
 
 //根据已勾选的列来设置表格的勾选状态
 const setCheckData = ()=>{
-  let selectedArray = tableData.value.filter(item => tableAllSelectedIndex.value.includes(item.uuid))
   tableData.value.forEach((item) => {
-    if (tableAllSelectedIndex.value.includes(item.uuid)) {
+    if (tableSelectedIndex[curProductData.index].includes(item.uuid)) {
       multipleTableRef.value?.toggleRowSelection(item, true)
     } else {
       multipleTableRef.value?.toggleRowSelection(item, false)
     }
   })
+}
+
+function arraysEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+
+  // 对数组进行排序并转换为字符串进行比较
+  const sortedArr1 = [...arr1].sort();
+  const sortedArr2 = [...arr2].sort();
+
+  return sortedArr1.toString() === sortedArr2.toString();
 }
 
 

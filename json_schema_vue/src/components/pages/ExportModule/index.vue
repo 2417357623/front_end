@@ -105,8 +105,9 @@ const loading = ref(false);
 const activeProductMenuItem = ref('batch');
 
 const productStore = useProductStore();
-const selectionItemsForTree = productStore.selectionItemsForTree;
-const selectionItemsForTable = productStore.selectionItemsForTable;
+const tableSelectedIndex = productStore.tableSelectedIndex
+const treeSelectedIndex = productStore.treeSelectedIndex
+const tableSelectedRows = productStore.tableSelectedRows
 const treeItems = ref([])
 
 const treeRef = ref()
@@ -127,13 +128,16 @@ watch(productValue, (newVal) => {
   activeProductMenuItem.value = newVal;
 });
 
-watch(selectionItemsForTree,async ()=>{
-  treeItems.value = selectionItemsForTree
+watch(tableSelectedRows,async (newVal)=>{
+  //将table的已选行的uuid由对象展开成一维数组
+  treeItems.value = getTreeByTableData(newVal)
+  treeSelectedIndex.length = 0;
+  treeSelectedIndex.push(...Object.values(tableSelectedIndex).flat());
   //在 treeItems.value 被更新后，
   // Vue 开始计划 DOM 的更新，但这个更新还没有完成。如果你在这时立即调用 setCheckedKeys，
   // Vue 可能还没有将 treeItems 的新状态反映在 el-tree 组件的 DOM 结构中。因此，setCheckedKeys 操作的目标 DOM 节点可能还不存在或未正确初始化，导致无法正确勾选。
   await nextTick();
-  treeRef.value.setCheckedKeys(getAllKeys(selectionItemsForTree),false);
+  treeRef.value.setCheckedKeys(treeSelectedIndex,false);
 })
 
 //远程查询的select
@@ -184,36 +188,33 @@ const loadProjectInfo = () => {
   });
 };
 
-//获取所有table的勾选行的key，在树中也勾选
-const getAllKeys = (data)=>{
-  const keys = [];
-  const getKey = (nodes) => {
-    nodes.forEach(node => {
-      node.children.map((item) => {
-        keys.push(item.index)
-      })
-    });
-  };
-  getKey(data);
-  return keys;
-}
-
 const handleTreeCheckChange = () => {
 
   let keys = treeRef.value.getCheckedKeys(false)
-  let array = selectionItemsForTree.map((item) => {
-    const filteredChildren = item.children.filter((child) => keys.includes(child.index))
-    return {
-      ...item,  // 复制原对象的所有属性
-      children: filteredChildren // 更新 children 属性
-    };
-  });
-  selectionItemsForTable.length = 0;
-  selectionItemsForTable.push(...array)
+  treeSelectedIndex.length = 0;
+  treeSelectedIndex.push(...keys)
 };
 
-const setCheckedKeys = () => {
-  treeRef.value.setCheckedKeys(allKeys, false)
+//当table的勾选值变化时，根据table的数据更新el-tree的数据
+const getTreeByTableData = (data)=>{
+
+  let treeData = []
+  //value是每个制品的数组对象
+  Object.entries(data).forEach(([key, value]) =>{
+    let curObject = {};
+    let childrenArray = [];
+    curObject["label"] = key
+    let treeShowInfo = productStore.productItems.find((item)=> item.index ==  key)?.treeShowInfo
+    childrenArray = value.map((item)=>{
+      return {
+        index: item.uuid,
+        label: item[treeShowInfo]
+      }
+    })
+    curObject["children"] = childrenArray
+    treeData.push(curObject)
+  })
+  return treeData
 }
 
 </script>
