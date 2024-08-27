@@ -63,7 +63,7 @@
       </div>
       <div class='queryArea'>
         <keep-alive>
-          <CommonProduct :product='activeProductMenuItem' :key='activeProductMenuItem' :projectName='projectName' />
+          <DisplayArea :product='activeProductMenuItem' :key='activeProductMenuItem' :projectName='projectName' />
         </keep-alive>
       </div>
       <div class='selectedProductArea'>
@@ -80,6 +80,7 @@
                     show-checkbox
                     @check="handleTreeCheckChange"
                 />
+        <Pack></Pack>
       </div>
     </div>
   </div>
@@ -87,13 +88,15 @@
 
 <script setup>
 import { ref, getCurrentInstance } from 'vue';
-import CommonProduct from '@/components/pages/ExportModule/CommonProduct.vue';
+import DisplayArea from './dataDisplay/index.vue'
 import myApi from '@/api/index.js';
 import { EiInfo } from '@/utils/eiinfo.js';
 import { useProductStore } from '@/stores/productStore.js';
 import { ElTree } from 'element-plus'
+import Pack from './pack/index.vue'
 
 const projectName = ref('');
+provide('projectName',projectName)
 const productValue = ref('batch');
 
 //总的工作空间列表
@@ -201,21 +204,26 @@ const getTreeByTableData = (data)=>{
   let treeData = []
   //value是每个制品的数组对象
   Object.entries(data).forEach(([key, value]) =>{
-    let curObject = {};
-    let childrenArray = [];
-    curObject["label"] = key
-    let treeShowInfo = productStore.productItems.find((item)=> item.index ==  key)?.treeShowInfo
-    childrenArray = value.map((item)=>{
-      return {
-        index: item.uuid,
-        label: item[treeShowInfo]
-      }
-    })
-    curObject["children"] = childrenArray
-    treeData.push(curObject)
+    if(value.length > 0){
+      let curObject = {};
+      let childrenArray = [];
+      curObject["label"] = key
+      let treeShowInfo = productStore.productItems.find((item)=> item.index ==  key)?.treeShowInfo
+      childrenArray = value.map((item)=>{
+        return {
+          index: item.uuid,
+          label: item[treeShowInfo]
+        }
+      })
+      curObject["children"] = childrenArray
+      treeData.push(curObject)
+    }
   })
   return treeData
 }
+
+
+
 
 </script>
 

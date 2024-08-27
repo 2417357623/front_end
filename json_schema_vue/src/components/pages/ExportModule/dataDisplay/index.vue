@@ -38,9 +38,9 @@
 
 <script setup>
 
-import { EiInfo } from '~/utils/eiinfo.js';
-import myApi from '@/api';
-import BatchQuery from '~/components/pages/ExportModule/queryArea/BatchQuery.vue';
+import { EiInfo } from '@/utils/eiinfo.js';
+import myApi from '@/api/index.js';
+import BatchQuery from '@/components/pages/ExportModule/dataDisplay/queryArea/BatchQuery.vue';
 import { useProductStore } from '@/stores/productStore.js';
 
 const props = defineProps({

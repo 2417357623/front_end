@@ -5,18 +5,19 @@ let host = window.location.host;
 let reg = /^localhost:4000+/;
 
 const baseURL = reg.test(host)
-  ? '.././xdata-succeed-mill/service'
-  : '.././service';
+  ? '.././xdata-succeed-mill'
+  : '.././';
 
-const requestAxios = axios.create({
+//专门接受blob形式的二进制文件。
+const interfaceRequestAxios = axios.create({
   baseURL,
-  timeout: 100000, // 超时时间
+  responseType: 'blob'
 });
 
 /**
  * http request 拦截器
  */
-requestAxios.interceptors.request.use(
+interfaceRequestAxios.interceptors.request.use(
   (config) => {
     config.data = JSON.stringify(config.data);
     config.headers = {
@@ -34,7 +35,7 @@ requestAxios.interceptors.request.use(
 /**
  * http response 拦截器
  */
-requestAxios.interceptors.response.use(
+interfaceRequestAxios.interceptors.response.use(
   (response) => {
     if (response.data.status === 2) {
       console.log("过期");
@@ -46,22 +47,23 @@ requestAxios.interceptors.response.use(
   }
 );
 
-const request = {
+
+const interfaceRequest = {
   send: function(url, info) {
     return new Promise((resolve, reject) => {
-      requestAxios
+      interfaceRequestAxios
           .post(url, info)
           .then(res => {
-          resolve(EiInfo.parseJSONObject(res.data));
-        })
+            resolve(res.data);
+          })
           .catch(
             err =>{
               reject(err);
             }
-        )
+          )
       },
     );
   },
 };
 
-export default request
+export default interfaceRequest

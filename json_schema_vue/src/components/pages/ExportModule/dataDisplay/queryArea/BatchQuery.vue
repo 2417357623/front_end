@@ -38,9 +38,9 @@ const query = () => {
   if(!props.projectName){
     ElNotification({
       title: '提示',
-      message: h('i', { style: 'color: teal' }, '请选择工作空间'),
+      message: h('i', { style: 'color: var(--ep-color-primary)' }, '请选择工作空间'),
       position: 'top-right',
-      duration:0
+      type: 'warning'
     })
     return;
   }

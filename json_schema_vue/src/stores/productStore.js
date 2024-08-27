@@ -1,10 +1,10 @@
 import { Download } from '@element-plus/icons-vue';
 import { defineStore } from 'pinia'
-import BatchQuery from '@/components/pages/ExportModule/queryArea/BatchQuery.vue';
+import BatchQuery from '@/components/pages/ExportModule/dataDisplay/queryArea/BatchQuery.vue';
 import myApi from '@/api/index.js';
 
 export const useProductStore = defineStore('productStore', ()=>{
-  const productItems = shallowRef([
+  const productItems = reactive([
     {
       //根据index判断唯一制品，和ename一致
       index:"batch",
@@ -33,7 +33,7 @@ export const useProductStore = defineStore('productStore', ()=>{
       curComponent: BatchQuery,
       //查询数据调用的接口
       getDataMethod: myApi.getBatchInfo,
-      //已选择的制品里，要显示的列的prop
+      //已选择的制品里，要显示的列信息的prop
       treeShowInfo:"taskName"
     },
     {
@@ -44,12 +44,10 @@ export const useProductStore = defineStore('productStore', ()=>{
     },
   ]);
 
-  const incrementIndex = ref(0);
-
   //el-table 和 el-tree 的联动数据
   const createObj = ()=>{
     let obj = {}
-    productItems.value.map((item)=>{
+    productItems.map((item)=>{
       obj[item.index] = []
     })
     return obj
@@ -57,18 +55,13 @@ export const useProductStore = defineStore('productStore', ()=>{
 
   //一定要在响应式对象创建的时候完成数据的初始化
   //数据格式{batch:[{uuid:11,name:11},{}],table:[]}
-  const tableSelectedRows = ref(createObj())
+  const tableSelectedRows = reactive(createObj())
   //数据格式{batch:["111","222"],table:[]}
-  const tableSelectedIndex = ref(createObj())
+  const tableSelectedIndex = reactive(createObj())
 
-  const treeSelectedRows = ref([])
-  const treeSelectedIndex = ref([])
+  const treeSelectedRows = reactive([])
+  const treeSelectedIndex = reactive([])
 
-
-
-  const indexAddOne = ()=>{
-    incrementIndex.value++
-  }
 
   const activeMenuItem = ref('批式任务');
 
@@ -76,13 +69,15 @@ export const useProductStore = defineStore('productStore', ()=>{
     activeMenuItem.value = key
   }
 
+  const getOneProduct = (index)=>{
+    return productItems.find(item => item.index === index)
+  }
+
 
   return{
     productItems,
     activeMenuItem,
     setActiveMenuItem,
-    incrementIndex,
-    indexAddOne,
     treeSelectedRows,
     tableSelectedRows,
     tableSelectedIndex,
