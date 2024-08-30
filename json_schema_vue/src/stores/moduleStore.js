@@ -3,14 +3,14 @@ import { defineStore } from 'pinia'
 import ExportModule from '@/components/pages/ExportModule/index.vue'
 import ImportModule from '@/components/pages/ImportModule.vue';
 import ModifyModule from '@/components/pages/ModifyModule.vue';
-import GenerateModule from '@/components/pages/GenerateModule.vue';
+import DeployModule from '@/components/pages/deployModule/index.vue';
 import { Download, EditPen, Upload, VideoPlay } from '@element-plus/icons-vue';
 export const useModuleStore = defineStore('store',() => {
   const menuItems = shallowRef([
     {
       index: '1',
       ename: "ExportModule",
-      cname: '导出',
+      cname: '制品打包',
       icon: Download,
     },
     {
@@ -27,8 +27,8 @@ export const useModuleStore = defineStore('store',() => {
     },
     {
       index: '4',
-      ename: "GenerateModule",
-      cname: '制品生成',
+      ename: "DeployModule",
+      cname: '制品部署',
       icon: VideoPlay
     },
   ]);
@@ -44,7 +44,7 @@ export const useModuleStore = defineStore('store',() => {
     ExportModule,
     ImportModule,
     ModifyModule,
-    GenerateModule
+    DeployModule
   }
 
   const currentMenu = computed(() => {

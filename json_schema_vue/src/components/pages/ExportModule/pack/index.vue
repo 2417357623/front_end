@@ -31,7 +31,7 @@ const packProduct = () => {
         reader.onload = (e) => {
           // 创建一个 a 标签用于下载文件
           let a = document.createElement('a');
-          a.download = 'taskConf.zip';
+          a.download = 'productConfig.zip';
           a.href = e.target.result;
           // 由于 Firefox 的兼容性问题，将 a 标签添加到 DOM 中
           document.body.appendChild(a);

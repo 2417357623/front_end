@@ -9,7 +9,8 @@
 <template>
   <div class='content'>
     <div class='queryArea'>
-      <component :is='curComponent' v-model='queryInfo' :projectName='projectName' />
+      <component v-if='curProductData?.curComponent' :is='curComponent' v-model='queryInfo' :projectName='projectName' />
+      <QueryArea v-else v-model='queryInfo' :projectName='projectName' :curProduct='props.product'></QueryArea>
     </div>
     <div class='gridArea'>
       <div class='table-content'>
@@ -42,6 +43,7 @@ import { EiInfo } from '@/utils/eiinfo.js';
 import myApi from '@/api/index.js';
 import BatchQuery from '@/components/pages/ExportModule/dataDisplay/queryArea/BatchQuery.vue';
 import { useProductStore } from '@/stores/productStore.js';
+import QueryArea from './queryArea/index.vue'
 
 const props = defineProps({
   product: String,
@@ -75,6 +77,9 @@ const curProductData = productStore.productItems.find((item) => item.index == pr
 // curSelectedIndex.value = tableSelectedIndex[curProductData.index]
 // const curSelectedRows = computed(()=>tableSelectedRows[curProductData.index])
 
+const queryProps = reactive({})
+
+
 onMounted(() => {
   getBaseData();
 });
@@ -82,7 +87,7 @@ onMounted(() => {
 //获取制品列信息和制品对应的查询区域组件
 const getBaseData = () => {
   tableColumn.value = curProductData.column;
-  curComponent.value = curProductData.curComponent;
+  curComponent.value = curProductData?.curComponent;
 };
 
 //watch侦听，只有在里面的监听值是reactive的时候才会侦听该对象内部属性的变化，如果是ref那属性值变化也不会触发监听
@@ -204,5 +209,6 @@ function arraysEqual(arr1, arr2) {
 .content {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 </style>
