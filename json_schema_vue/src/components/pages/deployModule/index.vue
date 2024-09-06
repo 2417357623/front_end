@@ -26,6 +26,12 @@ import CheckStep from '../deployModule/checkStep/index.vue'
 const activeStep = ref(1);
 const projectName = ref()
 
+onMounted(
+    ()=>{
+      console.log('onMounted')
+    }
+)
+
 </script>
 
 <style scoped>

@@ -21,15 +21,16 @@
 <script setup>
 
 import { useProductStore } from '@/stores/productStore.js';
+import { useDeployStore } from '@/stores/deployStore.js';
+
+const deployStore = useDeployStore()
+const {handledTableData,menuIndex} = deployStore
 
 const curProduct  = defineModel()
 const productStore = useProductStore()
-const props = defineProps({
-  menuIndex:Array
-})
 
 const menuItems = productStore.productItems.filter(item =>
-    props.menuIndex.includes(item.index)
+    menuIndex.value.includes(item.index)
 );
 
 

@@ -1,136 +1,72 @@
 import { Download } from '@element-plus/icons-vue';
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia';
 import BatchQuery from '@/components/pages/ExportModule/dataDisplay/queryArea/BatchQuery.vue';
 import AreaQuery from '@/components/pages/ExportModule/dataDisplay/queryArea/AreaQuery.vue';
 import myApi from '@/api/index.js';
+import {productConfig} from '@/constant/productConfig.js'
 
-export const useProductStore = defineStore('productStore', ()=>{
-  const productItems = reactive([
-    {
-      //根据index判断唯一制品，和ename一致
-      index:"batch",
-      //选项的值
-      ename: 'batch',
-      //option选项的显示值
-      cname: '批式任务',
-      //制品图表
-      icon: Download,
-      //查询结果需要显示的列
-      column: [
-        {
-          prop: 'taskName',
-          label: '任务名称',
-          width: '',
-        },
-        {
-          prop: 'desc',
-          label: '任务描述',
-          width: '',
-        },
-        {
-          prop: 'taskType',
-          label: '任务类型',
-          width: '',
-        },
-      ],
-      //查询组件
-      curComponent: null,
-      //查询部分
-      queryArea:{
-        taskName:'任务名称',
-        taskType:'任务类型'
-      },
-      //查询数据调用的接口
-      getDataMethod: myApi.getBatchInfo,
-      //已选择的制品里，要显示的列信息的prop
-      treeShowInfo:"taskName"
-    },
-    {
-      //根据index判断唯一制品，和ename一致
-      index:"area",
-      //选项的值
-      ename: 'area',
-      //option选项的显示值
-      cname: '数据分类',
-      //制品图表
-      icon: Download,
-      //查询结果需要显示的列
-      column: [
-        {
-          prop: 'areaName',
-          label: '中文名',
-          width: '',
-        },
-        {
-          prop: 'areaCode',
-          label: '代码',
-          width: '',
-        },
-        {
-          prop: 'dataType',
-          label: '类型',
-          width: '',
-        },
-        {
-          prop: 'areaId',
-          label: '全路径',
-          width: '',
-        },
-      ],
-      //查询组件
-      curComponent: null,
-      queryArea:{
-        areaName:'中文名',
-        areaCode:'代码'
-      },
-      //查询数据调用的接口
-      getDataMethod: myApi.getAreaInfo,
-      //已选择的制品里，要显示的列信息的prop
-      treeShowInfo:"areaName"
-    },
-  ]);
+export const useProductStore = ()=>{
 
-  //el-table 和 el-tree 的联动数据
-  const createObj = ()=>{
-    let obj = {}
-    productItems.map((item)=>{
-      obj[item.index] = []
-    })
-    return obj
-  }
+  const store = defineStore('productStore', ()=>{
 
-  //一定要在响应式对象创建的时候完成数据的初始化
-  //数据格式{batch:[{uuid:11,name:11},{}],table:[]}
-  const tableSelectedRows = reactive(createObj())
-  //数据格式{batch:["111","222"],table:[]}
-  const tableSelectedIndex = reactive(createObj())
+    //el-table 和 el-tree 的联动数据
+    const createObj = ()=>{
+      let obj = {}
+      productConfig.productItems.map((item)=>{
+        obj[item.index] = []
+      })
+      return obj
+    }
 
-  const treeSelectedRows = reactive([])
-  const treeSelectedIndex = reactive([])
+    //一定要在响应式对象创建的时候完成数据的初始化
+    //数据格式{batch:[{uuid:11,name:11},{}],table:[]}
+    const tableSelectedRows = ref(createObj())
+    //数据格式{batch:["111","222"],table:[]}
+    const tableSelectedIndex = ref(createObj())
 
-  const activeMenuItem = ref('批式任务');
+    const treeSelectedRows = ref([])
+    const treeSelectedIndex = ref([])
 
-  const setActiveMenuItem = (key) => {
-    activeMenuItem.value = key
-  }
+    const activeMenuItem = ref('批式任务');
 
-  const getOneProduct = (index)=>{
-    return productItems.find(item => item.index === index)
-  }
+    const setActiveMenuItem = (key) => {
+      activeMenuItem.value = key
+    }
 
-  const getQueryArea = (index)=>{
-    productItems.find(item => item.index === index)?.queryArea
-  }
+    const setTableSelectedRows = (curProduct,tableData) => {
+      tableSelectedRows.value = tableData.filter((item) => tableSelectedIndex[curProduct].includes(item.uuid))
+    }
 
+    const setTableSelectedIndex = (value) => {
+      tableSelectedIndex.value = value
+    }
 
-  return{
-    productItems,
-    activeMenuItem,
-    setActiveMenuItem,
-    treeSelectedRows,
-    tableSelectedRows,
-    tableSelectedIndex,
-    treeSelectedIndex
-  }
+    return{
+      activeMenuItem,
+      treeSelectedRows,
+      tableSelectedRows,
+      tableSelectedIndex,
+      treeSelectedIndex,
+      setTableSelectedRows,
+      setActiveMenuItem,
+      setTableSelectedIndex
+    }
 
-})
+  })()
+
+  const storeObj = { ...store, ...storeToRefs(store) };
+
+  // 透過傳入的參數決定該元件是否要在onMounted或onActivated生命週期中更新資料，
+  // 需要注意的是生命週期要放在useUsersStore這層，而不是defineStore裡面，因為defineStore只會執行一次
+  // 如果放在defineStore裡面，那就只有第一次呼叫useUsersStore建立該users store的元件的生命週期有綁定而已，
+  // 之後呼叫useUsersStore的元件就沒有綁定onMounted或onActivated了
+  onMounted(() => {
+
+  });
+
+  // onActivated for KeepAlive use
+  onActivated(() => {
+  });
+
+  return storeObj;
+}

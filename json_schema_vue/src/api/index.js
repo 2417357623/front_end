@@ -1,5 +1,6 @@
 import request from '@/utils/request';
 import interfaceRequest from '@/utils/interfaceRequest';
+import uploadRequest from '@/utils/uploadRequest.js';
 
 const getBatchInfo = (info) => {
   return request.send('/BEDD00/query', info);
@@ -17,11 +18,21 @@ const packProduct = (info) => {
   return interfaceRequest.send('importAndExport/exportConfigForPack', info);
 };
 
+const uniqueCheck = (info) =>{
+  return request.send('BEDD00LY/uniqueCheck', info)
+}
+
+const dependencyCheck = (info) =>{
+  return request.send('BEDD00LY/dependencyCheck', info)
+}
+
 const myApi = {
   getBatchInfo,
   getProjectInfo,
   packProduct,
-  getAreaInfo
+  getAreaInfo,
+  uniqueCheck,
+  dependencyCheck
 };
 
 export default myApi;

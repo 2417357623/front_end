@@ -18,7 +18,7 @@
             style='width: 240px'
         >
           <el-option
-              v-for='item in productStore.productItems'
+              v-for='item in productConfig.getMenuItem()'
               :key='item.index'
               :label='item.cname'
               :value='item.ename'
@@ -37,7 +37,7 @@
             @select='handleSelect'
         >
           <el-menu-item
-              v-for='item in  productStore.productItems'
+              v-for='item in menuItems'
               :index='item.index'
           >
             {{ item.cname }}
@@ -64,13 +64,14 @@ import myApi from '@/api/index.js';
 import { EiInfo } from '@/utils/eiinfo.js';
 import OverView from './overview/index.vue'
 import { useProductStore } from '@/stores/productStore.js';
+import {productConfig}  from '@/constant/productConfig.js';
 
 const productStore = useProductStore();
 const projectName = ref('');
 provide('projectName',projectName)
-const productValue = ref('batch');
-
+const productValue = ref('batch')
 const activeProductMenuItem = ref('batch');
+const menuItems = productConfig.getMenuItem()
 
 //一旦选择的制品变化，制品菜单变化
 watch(productValue, (newVal) => {

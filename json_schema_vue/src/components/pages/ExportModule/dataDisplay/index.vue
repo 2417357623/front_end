@@ -9,7 +9,8 @@
 <template>
   <div class='content'>
     <div class='queryArea'>
-      <component v-if='curProductData?.curComponent' :is='curComponent' v-model='queryInfo' :projectName='projectName' />
+      <component v-if='curProductData?.curComponent' :is='curComponent' v-model='queryInfo'
+                 :projectName='projectName' />
       <QueryArea v-else v-model='queryInfo' :projectName='projectName' :curProduct='props.product'></QueryArea>
     </div>
     <div class='gridArea'>
@@ -22,11 +23,11 @@
             max-height='683px'
             @select='handleSelectionChange'
             @select-all='handleSelectionChange'
-            ref="multipleTableRef"
+            ref='multipleTableRef'
         >
           <el-table-column type='selection' width='50' />
           <el-table-column
-                v-for='column in tableColumn'
+              v-for='column in tableColumn'
               :prop='column.prop'
               :label='column.label'
               :width='column.width'
@@ -43,7 +44,8 @@ import { EiInfo } from '@/utils/eiinfo.js';
 import myApi from '@/api/index.js';
 import BatchQuery from '@/components/pages/ExportModule/dataDisplay/queryArea/BatchQuery.vue';
 import { useProductStore } from '@/stores/productStore.js';
-import QueryArea from './queryArea/index.vue'
+import QueryArea from './queryArea/index.vue';
+import { productConfig } from '@/constant/productConfig.js';
 
 const props = defineProps({
   product: String,
@@ -51,23 +53,30 @@ const props = defineProps({
 });
 
 const queryInfo = ref({});
-const tableData  = ref([])
-const tableColumn = ref([]);
-const curComponent = shallowRef();
+const tableData = ref([]);
 const loading = ref(false);
 
 
 const productStore = useProductStore();
-const tableSelectedIndex = productStore.tableSelectedIndex
-const treeSelectedIndex = productStore.treeSelectedIndex
+const {
+  tableSelectedIndex, treeSelectedIndex, treeSelectedRows, tableSelectedRows,
+  setTableSelectedRows,setTableSelectedIndex
+} = productStore;
 const multipleTableRef = ref();
-//数组,[{index:"1",label:'222'},{index:"2",label:'222'}]
-const treeSelectedRows = productStore.treeSelectedRows;
-const tableSelectedRows = productStore.tableSelectedRows;
 
 
 //不同制品获取表格信息的统一配置
-const curProductData = productStore.productItems.find((item) => item.index == props.product);
+const curProductData = computed(() => {
+  return productConfig.getOneProduct(props.product);
+});
+
+const tableColumn = computed(() => {
+  return curProductData.value.column;
+});
+
+const curComponent = computed(() => {
+  return curProductData.value.curComponent;
+});
 /*Getter 不应有副作用​
 计算属性的 getter 应只做计算而没有任何其他的副作用，这一点非常重要，请务必牢记。举例来说，不要改变其他状态、在 getter 中做异步请求或者更改 DOM！一个计算属性的声明中描述的是如何根据其他值派生一个值。因此 getter 的职责应该仅为计算和返回该值。在之后的指引中我们会讨论如何使用侦听器根据其他响应式状态的变更来创建副作用。
 
@@ -76,19 +85,7 @@ const curProductData = productStore.productItems.find((item) => item.index == pr
 //所以这样做事错的，响应式对象里的key的值就是响应式的，但不要想着赋给新值
 // curSelectedIndex.value = tableSelectedIndex[curProductData.index]
 // const curSelectedRows = computed(()=>tableSelectedRows[curProductData.index])
-
-const queryProps = reactive({})
-
-
-onMounted(() => {
-  getBaseData();
-});
-
-//获取制品列信息和制品对应的查询区域组件
-const getBaseData = () => {
-  tableColumn.value = curProductData.column;
-  curComponent.value = curProductData?.curComponent;
-};
+const queryProps = reactive({});
 
 //watch侦听，只有在里面的监听值是reactive的时候才会侦听该对象内部属性的变化，如果是ref那属性值变化也不会触发监听
 //下面这种情况也会触发监听，只要数据变了都会监听到
@@ -103,22 +100,23 @@ const getBaseData = () => {
 //   count.a = 0;
 //   count.a = 1
 // }
-watch((tableSelectedIndex),(newVal)=>{
-  tableSelectedRows[curProductData.index].length = 0
-  tableSelectedRows[curProductData.index].push(...tableData.value.filter((item) => newVal[curProductData.index].includes(item.uuid)))
-})
+watch((tableSelectedIndex), (newVal) => {
+  setTableSelectedRows(props.product,tableData)
+});
+
 
 //每次查询之后，更新表格数据，并且勾选已选择的制品
 watch(queryInfo, async (newValue) => {
   loading.value = true;
   await getData();
-  setCheckData()
+  await nextTick()
+  setCheckData();
 });
 
 //注意，你不能直接侦听响应式对象的属性值
-watch(treeSelectedIndex,(newVal)=>{
-  handleTreeDataChange(newVal)
-})
+watch(treeSelectedIndex, (newVal) => {
+  handleTreeDataChange(newVal);
+});
 
 
 //获取列表数据
@@ -136,7 +134,7 @@ const getData = async () => {
   // });
 
   // 使用 await 等待 curProductData.getDataMethod 的结果
-  const res = await curProductData.getDataMethod(info);
+  const res = await curProductData.value.getDataMethod(info);
   let resBlock = res.getBlock('result');
   tableData.value = resBlock.getMappedRows();
 
@@ -146,36 +144,33 @@ const getData = async () => {
 
 //当行数据选择时，把数据提供给已选制品栏
 const handleSelectionChange = (selection) => {
-  tableSelectedIndex[curProductData.index].length = 0;
+  let obj = tableSelectedIndex.value
   //更新已勾选列表
-  selection.map((item)=>{
-    tableSelectedIndex[curProductData.index].push(item.uuid)
-  })
+  selection.forEach((item) => {
+    obj[curProductData.value.index].push(item.uuid);
+  });
+  setTableSelectedIndex(obj)
 };
 
 //根据树传来的数据，改变已勾选的列
-const handleTreeDataChange = (indexInfo)=> {
-
-  let array = tableSelectedIndex[curProductData.index].filter((childIndex)=> indexInfo.includes(childIndex))
-  // if(!arraysEqual(array,tableSelectedIndex[curProductData.index])){
-  //   tableSelectedIndex[curProductData.index].length = 0
-  //   tableSelectedIndex[curProductData.index].push(...array)
-  //   setCheckData();
-  // }
-  tableSelectedIndex[curProductData.index].splice(0, tableSelectedIndex[curProductData.index].length, ...array);
+const handleTreeDataChange = (indexInfo) => {
+  let  newTableSelectedIndex = { ...tableSelectedIndex.value }
+  let array = newTableSelectedIndex[curProductData.value.index].filter((childIndex) => indexInfo.includes(childIndex))
+  newTableSelectedIndex[curProductData.value.index] = array
+  setTableSelectedIndex(array)
   setCheckData();
-}
+};
 
 //根据已勾选的列来设置表格的勾选状态
-const setCheckData = ()=>{
+const setCheckData = () => {
   tableData.value.forEach((item) => {
-    if (tableSelectedIndex[curProductData.index].includes(item.uuid)) {
-      multipleTableRef.value?.toggleRowSelection(item, true)
+    if (tableSelectedIndex.value[curProductData.value.index].includes(item.uuid)) {
+      multipleTableRef.value?.toggleRowSelection(item, true);
     } else {
-      multipleTableRef.value?.toggleRowSelection(item, false)
+      multipleTableRef.value?.toggleRowSelection(item, false);
     }
-  })
-}
+  });
+};
 
 function arraysEqual(arr1, arr2) {
   if (arr1.length !== arr2.length) return false;

@@ -10,7 +10,7 @@ import { ElNotification } from 'element-plus';
 import { storeToRefs } from 'pinia';
 
 const productStore = useProductStore();
-const { tableSelectedIndex } = storeToRefs(productStore);
+const { tableSelectedIndex } = productStore;
 const projectName = inject('projectName');
 
 //调用了controller的接口，通过原始的@ResponseBody@PostMapping(value = "/importAndExport/exportConfigForPack")方式，调用接口，返回数据。（因为eiinfo作为json不满足下载需要二进制文件的需求）
