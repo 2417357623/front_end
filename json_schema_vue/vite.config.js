@@ -1,4 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
+
+
 import path from 'path'
 
 import { defineConfig } from 'vite'
@@ -8,6 +10,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { dirname } from 'path';
 
 import Unocss from 'unocss/vite'
 import {
@@ -21,6 +24,8 @@ import {
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const pathSrc = path.resolve(__dirname, 'src')
 
 // https://vitejs.dev/config/
@@ -45,6 +50,9 @@ export default defineConfig({
           prefix: 'Icon',
         }),
       ],
+      eslintrc: {
+        enabled: true
+      },
     }),
     Components({
       resolvers: [

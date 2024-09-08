@@ -1,55 +1,47 @@
 <template>
-  <div style='display: flex ; flex-direction: column'>
-    <div class='selectArea'>
-      <div class='inputCompose'>
-        <div>
-          工作空间
-        </div>
-        <ProjectSelect v-model='projectName'></ProjectSelect>
+  <div style="display: flex; flex-direction: column">
+    <div class="selectArea">
+      <div class="inputCompose">
+        <div>工作空间</div>
+        <ProjectSelect v-model="projectName"></ProjectSelect>
       </div>
-      <div class='inputCompose'>
-        <div>
-          制品选择
-        </div>
-        <el-select
-            v-model='productValue'
-            placeholder='Select'
-            size='default'
-            style='width: 240px'
-        >
+      <div class="inputCompose">
+        <div>制品选择</div>
+        <el-select v-model="productValue" placeholder="Select" size="default" style="width: 240px">
           <el-option
-              v-for='item in productConfig.getMenuItem()'
-              :key='item.index'
-              :label='item.cname'
-              :value='item.ename'
+            v-for="item in productConfig.getMenuItem()"
+            :key="item.index"
+            :label="item.cname"
+            :value="item.ename"
           />
         </el-select>
       </div>
     </div>
-    <div class='contentArea'>
-      <div class='menuArea'>
+    <div class="contentArea">
+      <div class="menuArea">
         <el-menu
-            :default-active='productValue'
-            class='el-menu-vertical-demo'
-            @open='handleOpen'
-            @close='handleClose'
-            style='height: 100%'
-            @select='handleSelect'
+          :default-active="productValue"
+          class="el-menu-vertical-demo"
+          @open="handleOpen"
+          @close="handleClose"
+          style="height: 100%"
+          @select="handleSelect"
         >
-          <el-menu-item
-              v-for='item in menuItems'
-              :index='item.index'
-          >
+          <el-menu-item v-for="item in menuItems" :index="item.index">
             {{ item.cname }}
           </el-menu-item>
         </el-menu>
       </div>
-      <div class='queryArea'>
+      <div class="queryArea">
         <keep-alive>
-          <DisplayArea :product='activeProductMenuItem' :key='activeProductMenuItem' :projectName='projectName' />
+          <DisplayArea
+            :curProduct="activeProductMenuItem"
+            :key="activeProductMenuItem"
+            :projectName="projectName"
+          />
         </keep-alive>
       </div>
-      <div class='selectedProductArea'>
+      <div class="selectedProductArea">
         <OverView></OverView>
       </div>
     </div>
@@ -57,45 +49,37 @@
 </template>
 
 <script setup>
-import { ref, getCurrentInstance } from 'vue';
+import { ref, getCurrentInstance } from 'vue'
 import ProjectSelect from '@/components/common/projectSelect/index.vue'
 import DisplayArea from './dataDisplay/index.vue'
-import myApi from '@/api/index.js';
-import { EiInfo } from '@/utils/eiinfo.js';
+import myApi from '@/api/index.js'
+import { EiInfo } from '@/utils/eiinfo.js'
 import OverView from './overview/index.vue'
-import { useProductStore } from '@/stores/productStore.js';
-import {productConfig}  from '@/constant/productConfig.js';
+import { useProductStore } from '@/stores/productStore.js'
+import { productConfig } from '@/constant/productConfig.js'
 
-const productStore = useProductStore();
-const projectName = ref('');
-provide('projectName',projectName)
+const productStore = useProductStore()
+const projectName = ref('')
+provide('projectName', projectName)
 const productValue = ref('batch')
-const activeProductMenuItem = ref('batch');
+const activeProductMenuItem = ref('batch')
 const menuItems = productConfig.getMenuItem()
 
 //一旦选择的制品变化，制品菜单变化
 watch(productValue, (newVal) => {
-  activeProductMenuItem.value = newVal;
-});
-
-
+  activeProductMenuItem.value = newVal
+})
 
 const handleOpen = (key, keyPath) => {
-  console.log(key, keyPath);
-};
+  console.log(key, keyPath)
+}
 const handleClose = (key, keyPath) => {
-  console.log(key, keyPath);
-};
+  console.log(key, keyPath)
+}
 
 const handleSelect = (index) => {
-  activeProductMenuItem.value = index;
-};
-
-
-
-
-
-
+  activeProductMenuItem.value = index
+}
 </script>
 
 <style scoped>
@@ -125,6 +109,4 @@ const handleSelect = (index) => {
   width: 300px;
   height: 100%;
 }
-
-
 </style>

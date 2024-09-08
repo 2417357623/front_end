@@ -1,8 +1,4 @@
-import { Download } from '@element-plus/icons-vue';
 import { defineStore, storeToRefs } from 'pinia';
-import BatchQuery from '@/components/pages/ExportModule/dataDisplay/queryArea/BatchQuery.vue';
-import AreaQuery from '@/components/pages/ExportModule/dataDisplay/queryArea/AreaQuery.vue';
-import myApi from '@/api/index.js';
 import {productConfig} from '@/constant/productConfig.js'
 
 export const useProductStore = ()=>{
@@ -33,12 +29,16 @@ export const useProductStore = ()=>{
       activeMenuItem.value = key
     }
 
-    const setTableSelectedRows = (curProduct,tableData) => {
-      tableSelectedRows.value = tableData.filter((item) => tableSelectedIndex[curProduct].includes(item.uuid))
+    const setTableSelectedRows = (value) => {
+      tableSelectedRows.value = value
     }
 
     const setTableSelectedIndex = (value) => {
       tableSelectedIndex.value = value
+    }
+
+    const setTreeSelectedIndex = (value) =>{
+      treeSelectedIndex.value = value
     }
 
     return{
@@ -49,7 +49,8 @@ export const useProductStore = ()=>{
       treeSelectedIndex,
       setTableSelectedRows,
       setActiveMenuItem,
-      setTableSelectedIndex
+      setTableSelectedIndex,
+      setTreeSelectedIndex
     }
 
   })()
