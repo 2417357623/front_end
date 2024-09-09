@@ -22,6 +22,7 @@
 
 import { useProductStore } from '@/stores/productStore.js';
 import { useDeployStore } from '@/stores/deployStore.js';
+import { productConfig } from '@/constant/productConfig'
 
 const deployStore = useDeployStore()
 const {handledTableData,menuIndex} = deployStore
@@ -29,9 +30,7 @@ const {handledTableData,menuIndex} = deployStore
 const curProduct  = defineModel()
 const productStore = useProductStore()
 
-const menuItems = productStore.productItems.filter(item =>
-    menuIndex.value.includes(item.index)
-);
+const menuItems = productConfig.getMenuItem();
 
 
 const handleOpen = (key, keyPath) => {

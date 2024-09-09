@@ -58,6 +58,7 @@
 import { useProductStore } from '@/stores/productStore.js';
 import { checkFlag } from '@/constant/productConfig.js';
 import { useDeployStore } from '@/stores/deployStore.js';
+import {productConfig} from '@/constant/productConfig'
 
 const props = defineProps({
   curTableData: Array,
@@ -67,8 +68,8 @@ const props = defineProps({
 const productStore = useProductStore();
 const deployStore = useDeployStore();
 const {stepData} = deployStore
-const tableColumn = productStore.productItems.find((item) => item.index == props.curProduct)?.column;
-const stepColumn = productStore.productItems.find((item) => item.index == props.curProduct)?.stepColumn;
+const tableColumn = productConfig.getOneProduct(props.curProduct)?.column;
+const stepColumn = productConfig.getOneProduct('step')?.column;
 const checkColumn = checkFlag.variable
 
 </script>

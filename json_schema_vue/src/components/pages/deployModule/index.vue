@@ -5,10 +5,11 @@
     </div>
     <div>
       <div v-if="activeStep === 1">
-        <PrepareStep v-model:projectName='projectName' v-model:activeStep='activeStep'></PrepareStep>
+        <PrepareStep v-model:projectName='projectName' v-model:activeStep='activeStep' v-model:node="node">
+        </PrepareStep>
       </div>
       <div v-else-if="activeStep === 2">
-        <CheckStep :projectName='projectName' v-model:activeStep='activeStep'></CheckStep>
+        <CheckStep :projectName='projectName' v-model:activeStep='activeStep' v-model:node="node"></CheckStep>
       </div>
       <div v-else-if="activeStep === 3">
         <GenerateStep></GenerateStep>
@@ -25,11 +26,12 @@ import CheckStep from '../deployModule/checkStep/index.vue'
 
 const activeStep = ref(1);
 const projectName = ref()
+const node = ref()
 
 onMounted(
-    ()=>{
-      console.log('onMounted')
-    }
+  () => {
+    console.log('onMounted')
+  }
 )
 
 </script>
@@ -42,8 +44,9 @@ onMounted(
 
 .stepMenu {
   display: flex;
-  justify-content: center; /* 水平居中 */
-  margin-bottom: 24px; /* 根据需要调整间距 */
+  justify-content: center;
+  /* 水平居中 */
+  margin-bottom: 24px;
+  /* 根据需要调整间距 */
 }
-
 </style>

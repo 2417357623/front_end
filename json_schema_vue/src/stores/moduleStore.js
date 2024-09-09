@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import ExportModule from '@/components/pages/ExportModule/index.vue'
-import ImportModule from '@/components/pages/ImportModule.vue';
+import ImportModule from '@/components/pages/importModule/index.vue';
 import ModifyModule from '@/components/pages/ModifyModule.vue';
 import DeployModule from '@/components/pages/deployModule/index.vue';
 import { Download, EditPen, Upload, VideoPlay } from '@element-plus/icons-vue';

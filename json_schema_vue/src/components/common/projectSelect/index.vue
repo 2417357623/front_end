@@ -22,8 +22,7 @@
 <script setup>
 //远程查询的select
 import { EiInfo } from '@/utils/eiinfo.js';
-import myApi from '@/api/index.js';
-import { ref } from 'vue';
+import myApi from '@/api/index.js/';
 
 const projectName = defineModel()
 

@@ -44,7 +44,9 @@ export const productConfig = {
       //已选择的制品里，要显示的列信息的prop
       treeShowInfo: 'taskName',
       //导入的json数据里，展示在表格里的主要信息对应的key。
-      jsonDataShowInfo: 'baseDataList'
+      jsonDataShowInfo: 'baseDataList',
+      //导出时，每个制品存放的uuid的key可能不一样，需要配置以告诉tree
+      uuidDescKey:'taskUuid'
     },
     {
       //根据index判断唯一制品，和ename一致

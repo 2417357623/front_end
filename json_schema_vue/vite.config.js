@@ -24,9 +24,7 @@ import {
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const pathSrc = path.resolve(__dirname, 'src')
+const pathSrc = path.resolve(fileURLToPath(new URL('./', import.meta.url)), 'src')
 
 // https://vitejs.dev/config/
 export default defineConfig({

@@ -1,19 +1,28 @@
 <template>
-  <div class=''>
-    <div style='white-space: nowrap;display: flex;justify-content: center;margin-bottom: 48px;margin-top: 24px'>请选择工作空间</div>
-    <div class='project-select'>
-    <ProjectSelect v-model='projectName'></ProjectSelect>
+  <div class='prepareStep'>
+    <div>
+      <div style='white-space: nowrap;display: flex;justify-content: center;margin-bottom: 48px;margin-top: 24px'>
+        请选择工作空间
+      </div>
+      <div class='project-select'>
+        <ProjectSelect v-model='projectName'></ProjectSelect>
+      </div>
+    </div>
+    <div>
+      <NodeSelect></NodeSelect>
     </div>
 
-  </div>
-  <div>
-    <el-button @click='nextStep'>下一步</el-button>
+
+    <div>
+      <el-button @click='nextStep'>下一步</el-button>
+    </div>
   </div>
 </template>
 
 <script setup>
 import ProjectSelect from '@/components/common/projectSelect/index.vue'
 import { ElNotification } from 'element-plus';
+import {NodeSelect} from './nodeSelect/index'
 const projectName = defineModel('projectName')
 const activeStep = defineModel('activeStep')
 
@@ -28,15 +37,20 @@ const nextStep = () => {
     });
     return;
   }
-  activeStep.value = activeStep.value +1;
+  activeStep.value = activeStep.value + 1;
 }
 </script>
 
 <style scoped>
-.project-select{
+.project-select {
   margin-bottom: 48px;
   display: flex;
   justify-content: center;
+
+}
+
+.prepareStep {
+  display: flex;
 
 }
 </style>

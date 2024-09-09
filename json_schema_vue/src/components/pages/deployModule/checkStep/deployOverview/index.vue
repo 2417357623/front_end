@@ -7,7 +7,7 @@
       <el-tree
           node-key='index'
           class='selected-tree'
-          :data='treeItems'
+          :data='treeData'
           :props='defaultProps'
           default-expand-all
       />
@@ -16,12 +16,11 @@
 </template>
 
 <script setup>
-import { useProductStore } from '@/stores/productStore.js';
-import { ref } from 'vue';
 
-const productStore = useProductStore();
-const treeItems = ref([]);
-const treeRef = ref();
+import {useDeployStore} from '@/stores/deployStore'
+
+const deployStore = useDeployStore();
+const {treeData} = deployStore
 
 const defaultProps = {
   children: 'children',
