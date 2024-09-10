@@ -26,13 +26,23 @@ const dependencyCheck = (info) =>{
   return request.send('BEDD00LY/dependencyCheck', info)
 }
 
+const getStoragePositionFromDataDictionary = (info) =>{
+  return request.send('BEDP0001/getStoragePositionFromDataDictionary', info)
+}
+
+const generateProduct = (info) =>{
+  return request.send('BEDD00LY/generateProduct', info)
+}
+
 const myApi = {
   getBatchInfo,
   getProjectInfo,
   packProduct,
   getAreaInfo,
   uniqueCheck,
-  dependencyCheck
+  dependencyCheck,
+  getStoragePositionFromDataDictionary,
+  generateProduct
 };
 
 export default myApi;

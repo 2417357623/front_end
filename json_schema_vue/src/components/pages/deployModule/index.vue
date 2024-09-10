@@ -5,14 +5,14 @@
     </div>
     <div>
       <div v-if="activeStep === 1">
-        <PrepareStep v-model:projectName='projectName' v-model:activeStep='activeStep' v-model:node="node">
+        <PrepareStep v-model:form="form" v-model:activeStep='activeStep' >
         </PrepareStep>
       </div>
       <div v-else-if="activeStep === 2">
-        <CheckStep :projectName='projectName' v-model:activeStep='activeStep' v-model:node="node"></CheckStep>
+        <CheckStep :projectName='form.projectName' v-model:activeStep='activeStep' v-model:node="node"></CheckStep>
       </div>
       <div v-else-if="activeStep === 3">
-        <GenerateStep></GenerateStep>
+        <GenerateStep v-model:activeStep='activeStep'></GenerateStep>
       </div>
     </div>
   </div>
@@ -25,8 +25,10 @@ import GenerateStep from '../deployModule/generateStep/index.vue'
 import CheckStep from '../deployModule/checkStep/index.vue'
 
 const activeStep = ref(1);
-const projectName = ref()
-const node = ref()
+const form = ref({
+  projectName:"",
+  node:""
+})
 
 onMounted(
   () => {

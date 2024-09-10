@@ -1,7 +1,7 @@
 <template>
   <div class='check-content'>
     <div class='menu'>
-      <DeployMenu v-model='curProduct' ></DeployMenu>
+      <DeployMenu v-model='curProduct'></DeployMenu>
     </div>
     <div class='display'>
       <keep-alive>
@@ -31,27 +31,53 @@ import CheckBtn from './checkBtn/index.vue'
 import { useDeployStore } from '@/stores/deployStore.js';
 
 const deployStore = useDeployStore()
-const {handledTableData,menuIndex} = deployStore
+const { handledTableData, menuIndex} = deployStore
 
 const treeData = reactive({})
 
 const curProduct = ref("batch")
-const curTableData = computed(()=>{
+const curTableData = computed(() => {
   return handledTableData.value[curProduct.value]
 })
 
 const props = defineProps({
-  projectName:String
+  projectName: String
 })
 
 const activeStep = defineModel('activeStep')
 
 const nextStep = () => {
-  activeStep.value = activeStep.value +1;
+  if(!deployStore.isAllChecked()){
+    ElNotification({
+      title: '提示',
+      message: h('i', { style: 'color: var(--ep-color-primary)' }, '请先做校验'),
+      position: 'top-right',
+      type: 'warning',
+    });
+    return;
+  }
+  if(!deployStore.isAllHasDependency()){
+    ElNotification({
+      title: '提示',
+      message: h('i', { style: 'color: var(--ep-color-primary)' }, '依赖校验未通过，请在新环境建好相应依赖，或者把依赖导出到部署包中来'),
+      position: 'top-right',
+      type: 'error',
+    });
+    return
+  }
+  if(!deployStore.isAllUnique()){
+    ElNotification({
+      title: '提示',
+      message: h('i', { style: 'color: var(--ep-color-primary)' }, '唯一性校验未通过，请确保新环境的同名制品是您需要的，此次导入将忽略唯一性校验错误的制品，和新环境同名制品建立关联'),
+      position: 'top-right',
+      type: 'warning',
+    });
+  }
+  activeStep.value = activeStep.value + 1;
 }
 
 const previousStep = () => {
-  activeStep.value = activeStep.value -1;
+  activeStep.value = activeStep.value - 1;
 }
 
 

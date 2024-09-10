@@ -1,7 +1,6 @@
-import { CircleCloseFilled, Download, QuestionFilled, SuccessFilled } from '@element-plus/icons-vue';
+import { CircleCloseFilled, Download, QuestionFilled, SuccessFilled } from '@element-plus/icons-vue'
 
-import myApi from '@/api/index.js';
-
+import myApi from '@/api/index.js'
 
 export const productConfig = {
   productItems: [
@@ -19,25 +18,25 @@ export const productConfig = {
         {
           prop: 'taskName',
           label: '任务名称',
-          width: '',
+          width: ''
         },
         {
           prop: 'desc',
           label: '任务描述',
-          width: '',
+          width: ''
         },
         {
           prop: 'taskType',
           label: '任务类型',
-          width: '',
-        },
+          width: ''
+        }
       ],
       //查询组件
       curComponent: null,
       //查询部分
       queryArea: {
         taskName: '任务名称',
-        taskType: '任务类型',
+        taskType: '任务类型'
       },
       //查询数据调用的接口
       getDataMethod: myApi.getBatchInfo,
@@ -46,7 +45,7 @@ export const productConfig = {
       //导入的json数据里，展示在表格里的主要信息对应的key。
       jsonDataShowInfo: 'baseDataList',
       //导出时，每个制品存放的uuid的key可能不一样，需要配置以告诉tree
-      uuidDescKey:'taskUuid'
+      uuidDescKey: 'taskUuid'
     },
     {
       //根据index判断唯一制品，和ename一致
@@ -62,13 +61,13 @@ export const productConfig = {
         {
           prop: 'stepName',
           label: '步骤名称',
-          width: '',
+          width: ''
         },
         {
           prop: 'stepType',
           label: '步骤类型',
-          width: '',
-        },
+          width: ''
+        }
       ],
       //查询组件
       curComponent: null,
@@ -79,7 +78,7 @@ export const productConfig = {
       //已选择的制品里，要显示的列信息的prop
 
       //导入的json数据里，展示在表格里的主要信息对应的key。
-      jsonDataShowInfo: 'baseDataList',
+      jsonDataShowInfo: 'baseDataList'
     },
     {
       //根据index判断唯一制品，和ename一致
@@ -95,89 +94,126 @@ export const productConfig = {
         {
           prop: 'areaName',
           label: '中文名',
-          width: '',
+          width: ''
         },
         {
           prop: 'areaCode',
           label: '代码',
-          width: '',
+          width: ''
         },
         {
           prop: 'dataType',
           label: '类型',
-          width: '',
+          width: ''
         },
         {
           prop: 'areaId',
           label: '全路径',
-          width: '',
-        },
+          width: ''
+        }
       ],
       //查询组件
       curComponent: null,
       queryArea: {
         areaName: '中文名',
-        areaCode: '代码',
+        areaCode: '代码'
       },
       //查询数据调用的接口
       getDataMethod: myApi.getAreaInfo,
       //已选择的制品里，要显示的列信息的prop
       treeShowInfo: 'areaName',
-      jsonDataShowInfo: 'baseDataList',
-    },
+      jsonDataShowInfo: 'baseDataList'
+    }
   ],
   getOneProduct(index) {
-    return this.productItems.find(item => item.index === index);
+    return this.productItems.find((item) => item.index === index)
   },
 
   getQueryArea(index) {
-    return this.productItems.find(item => item.index === index)?.queryArea;
+    return this.productItems.find((item) => item.index === index)?.queryArea
   },
 
   getAllProductIndex() {
-    return this.productItems.map(item => item.index);
+    return this.productItems.map((item) => item.index)
   },
 
   getMenuItem() {
-    return this.productItems.filter((item) => item.index !=='step');
+    return this.productItems.filter((item) => item.index !== 'step')
   },
 
-  getAllProduct(){
+  getAllProduct() {
     return this.productItems
   }
-};
-
+}
 
 export const checkFlag = {
-  variable: 'uniqueCheck',
-  status: [
-    {
-      index: -1,
-      desc: '校验失败，存在相同制品',
-      icon: CircleCloseFilled,
-      color: '#db2828',
+  uniqueCheck: {
+    variable: 'uniqueCheck',
+    status: [
+      {
+        index: -1,
+        desc: '校验失败，存在相同制品',
+        icon: CircleCloseFilled,
+        color: '#db2828'
+      },
+      {
+        index: 0,
+        desc: '未校验',
+        icon: QuestionFilled,
+        color: '#f2711c'
+      },
+      {
+        index: 1,
+        desc: '校验通过',
+        icon: SuccessFilled,
+        color: 'rgb(103, 194, 58)'
+      }
+    ],
+    getIcon(index) {
+      return this.status.find((item) => item.index === index)?.icon
     },
-    {
-      index: 0,
-      desc: '未校验',
-      icon: QuestionFilled,
-      color: '#f2711c',
-    }, {
-      index: 1,
-      desc: '校验通过',
-      icon: SuccessFilled,
-      color: 'rgb(103, 194, 58)',
+
+    getDesc(index) {
+      return this.status.find((item) => item.index === index)?.desc
     },
-  ],
-  getIcon(index) {
-    return this.status.find(item => item.index === index)?.icon;
+
+    getColor(index) {
+      return this.status.find((item) => item.index === index)?.color
+    }
   },
 
-  getDesc(index) {
-    return this.status.find(item => item.index === index)?.desc;
-  },
+  dependencyCheck:{
+    variable: 'dependencyCheck',
+    status: [
+      {
+        index: -1,
+        desc: '依赖校验失败，依赖不全',
+        icon: CircleCloseFilled,
+        color: '#db2828'
+      },
+      {
+        index: 0,
+        desc: '依赖未校验',
+        icon: QuestionFilled,
+        color: '#f2711c'
+      },
+      {
+        index: 1,
+        desc: '依赖校验通过',
+        icon: SuccessFilled,
+        color: 'rgb(103, 194, 58)'
+      }
+    ],
+    getIcon(index) {
+      return this.status.find((item) => item.index === index)?.icon
+    },
 
-  getColor(index) {
-    return this.status.find(item => item.index === index)?.color;
-  },
-};
+    getDesc(index) {
+      return this.status.find((item) => item.index === index)?.desc
+    },
+
+    getColor(index) {
+      return this.status.find((item) => item.index === index)?.color
+    }
+  }
+}

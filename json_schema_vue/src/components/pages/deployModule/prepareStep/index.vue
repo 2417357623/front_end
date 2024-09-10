@@ -1,34 +1,30 @@
 <template>
-  <div class='prepareStep'>
-    <div>
-      <div style='white-space: nowrap;display: flex;justify-content: center;margin-bottom: 48px;margin-top: 24px'>
-        请选择工作空间
-      </div>
-      <div class='project-select'>
-        <ProjectSelect v-model='projectName'></ProjectSelect>
-      </div>
-    </div>
-    <div>
-      <NodeSelect></NodeSelect>
-    </div>
-
-
-    <div>
-      <el-button @click='nextStep'>下一步</el-button>
-    </div>
+  <div >
+    <el-form :model="form" label-width="auto" style="max-width: 600px" label-position="left">
+      <el-form-item label="选择工作空间">
+      <ProjectSelect v-model='form.projectName'></ProjectSelect>
+    </el-form-item>
+    <!-- <el-form-item label="选择任务导入的目录">
+      <NodeSelect v-model="form.node" :projectName="form.projectName"></NodeSelect>
+    </el-form-item> -->
+    <el-form-item>
+      <el-button type="primary" @click="nextStep">下一步</el-button>
+    </el-form-item>
+  </el-form>
   </div>
 </template>
 
 <script setup>
 import ProjectSelect from '@/components/common/projectSelect/index.vue'
 import { ElNotification } from 'element-plus';
-import {NodeSelect} from './nodeSelect/index'
-const projectName = defineModel('projectName')
+import  NodeSelect from './nodeSelect/index.vue'
+
+const form = defineModel('form')
 const activeStep = defineModel('activeStep')
 
 const nextStep = () => {
 
-  if (!projectName.value) {
+  if (!form.value.projectName) {
     ElNotification({
       title: '提示',
       message: h('i', { style: 'color: var(--ep-color-primary)' }, '请选择工作空间'),

@@ -13,10 +13,16 @@ export const useDeployStore = () => {
     //数据格式{batch:[{uuid:11,name:11},{}],table:[]}
     const handledTableData = ref({})
 
+    //提供给依赖校验的信息，确保制品部署之前，所需要的依赖链条的数据，都在制品包里或者新环境里
+    //数据格式{batch:{stepList :[{},{}],dataSourceList :[{},{}]},table.....}
+    const dependencyData = ref({})
+
     //handledTableData会在别的地方手动的改变值，所以不能用compute来定义
     watch(jsonData, () => {
       let data = { ...JSON.parse(JSON.stringify(jsonData.value)) }
-      handledTableData.value = handleJsonData(data)
+      const {tData,dData} = handleJsonData(data)
+      handledTableData.value = tData
+      dependencyData.value = dData
     })
 
     //要在menu展示的制品
@@ -33,12 +39,13 @@ export const useDeployStore = () => {
         array.forEach((item) => {
           allStep = [...allStep, ...item?.stepConfigList]
         })
-        let result = addColumnVariable(allStep, checkFlag.variable, 0)
+        let temp = addColumnVariable(allStep, checkFlag.uniqueCheck.variable, 0)
+        let result = addColumnVariable(temp, checkFlag.uniqueCheck.variable, 0)
         return result
       }
     })
 
-    //基于handledTableData，筛选出里面出了问题的数据
+    //基于handledTableData，筛选出里面出了问题的数据,步骤的问题统一不显示，而是用隶属的任务来展示
     const failedTableData = computed(()=>{
       return getFailedProduct()
     })
@@ -120,26 +127,37 @@ export const useDeployStore = () => {
 
     //处理从导入后得到的完整json信息，得到可以展示的表格信息。（依赖信息也需要从中提取，在别的方法处理）
     const handleJsonData = (jsonData) => {
-      let obj = {}
+      let obj = {
+        tData : {},
+        dData : {}
+      }
       Object.entries(jsonData).forEach(([key, value]) => {
         //如果解析的key是在所有已配置的制品里的，就要把这些key对应的值解析到表格里展示出来
         if (productConfig.getAllProductIndex().includes(key)) {
-          //对展示的基本数据存放的key进行了统一
-          // let targetKey = getOneProduct(key)?.jsonDataShowInfo;
           let targetKey = 'baseDataList'
           let dataArray = findArray(targetKey, value)
+
           //加入校验状态
-          obj[key] = addColumnVariable(dataArray, checkFlag.variable, 0)
-          //对batch的stepConfigList单独处理
+          let temp = addColumnVariable(dataArray, checkFlag.uniqueCheck.variable, 0)
+          obj.tData[key] = addColumnVariable(temp, checkFlag.dependencyCheck.variable, 0)
+          //对batch的stepConfigList单独加上校验状态，因为只有task有子展示项step
           if (key == 'batch') {
             dataArray.forEach((item, index) => {
-              obj[key][index].stepConfigList = addColumnVariable(
+              let temp = addColumnVariable(
                 item.stepConfigList,
-                checkFlag.variable,
+                checkFlag.uniqueCheck.variable,
+                0
+              )
+              obj.tData[key][index].stepConfigList = addColumnVariable(
+                temp,
+                checkFlag.dependencyCheck.variable,
                 0
               )
             })
           }
+
+          //提取所有的dependency
+          obj.dData[key] = value.dependency
         }
       })
       return obj
@@ -149,19 +167,69 @@ export const useDeployStore = () => {
       let data = { ...JSON.parse(JSON.stringify(handledTableData.value)) }
       let resultObj = {}
       const filteredProducts = Object.entries(data).map(([key,productArray]) => 
-        resultObj[key] =  productArray.filter((item) => item[checkFlag.variable] == -1)
+        resultObj[key] =  productArray.filter((item) => item[checkFlag.uniqueCheck.variable] == -1 || item[checkFlag.dependencyCheck.variable] == -1)
       );
       return resultObj
     }
 
+    const isAllChecked = ()=>{
+      let data = { ...JSON.parse(JSON.stringify(handledTableData.value)) }
+      let array = []
+      let flag = true;
+      const filteredProducts = Object.entries(data).map(([key,productArray]) => {
+
+        array =  productArray.filter((item) => item[checkFlag.uniqueCheck.variable] == 0 || item[checkFlag.dependencyCheck.variable] == 0)
+        if(array.length > 0){
+           flag = false;
+        }
+      }
+      );
+      return flag;
+    }
+
+    const isAllHasDependency = ()=>{
+      let data = { ...JSON.parse(JSON.stringify(handledTableData.value)) }
+      let array = []
+      let flag = true;
+      const filteredProducts = Object.entries(data).map(([key,productArray]) => {
+
+        array =  productArray.filter((item) => item[checkFlag.dependencyCheck.variable] == -1 )
+        if(array.length > 0){
+          flag = false;
+        }
+      }
+      );
+      return flag;
+    }
+
+    const isAllUnique = ()=>{
+      let data = { ...JSON.parse(JSON.stringify(handledTableData.value)) }
+      let array = []
+      let flag = true;
+      const filteredProducts = Object.entries(data).map(([key,productArray]) => {
+
+        array =  productArray.filter((item) => item[checkFlag.uniqueCheck.variable] == -1 )
+        if(array.length > 0){
+          flag = false;
+        }
+      }
+      );
+      return flag;
+    }
+    
+
     return {
       jsonData,
       handledTableData,
+      dependencyData,
       setJsonData,
       menuIndex,
       setHandledTableData,
       stepData,
-      treeData
+      treeData,
+      isAllChecked,
+      isAllHasDependency,
+      isAllUnique
     }
   })()
 
