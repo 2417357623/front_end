@@ -49,39 +49,6 @@ export const productConfig = {
     },
     {
       //根据index判断唯一制品，和ename一致
-      index: 'step',
-      //选项的值
-      ename: 'step',
-      //option选项的显示值
-      cname: '步骤',
-      //制品图表
-      icon: Download,
-      //查询结果需要显示的列
-      column: [
-        {
-          prop: 'stepName',
-          label: '步骤名称',
-          width: ''
-        },
-        {
-          prop: 'stepType',
-          label: '步骤类型',
-          width: ''
-        }
-      ],
-      //查询组件
-      curComponent: null,
-      //查询部分
-
-      //查询数据调用的接口
-
-      //已选择的制品里，要显示的列信息的prop
-
-      //导入的json数据里，展示在表格里的主要信息对应的key。
-      jsonDataShowInfo: 'baseDataList'
-    },
-    {
-      //根据index判断唯一制品，和ename一致
       index: 'area',
       //选项的值
       ename: 'area',

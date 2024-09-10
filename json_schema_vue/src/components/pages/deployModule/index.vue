@@ -9,10 +9,10 @@
         </PrepareStep>
       </div>
       <div v-else-if="activeStep === 2">
-        <CheckStep :projectName='form.projectName' v-model:activeStep='activeStep' v-model:node="node"></CheckStep>
+        <CheckStep :projectName='form.projectName' v-model:activeStep='activeStep'></CheckStep>
       </div>
       <div v-else-if="activeStep === 3">
-        <GenerateStep v-model:activeStep='activeStep'></GenerateStep>
+        <GenerateStep v-model:activeStep='activeStep' :node="node" :projectName='form.projectName'></GenerateStep>
       </div>
     </div>
   </div>

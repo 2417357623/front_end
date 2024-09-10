@@ -18,6 +18,7 @@ export const useDeployStore = () => {
     const dependencyData = ref({})
 
     //handledTableData会在别的地方手动的改变值，所以不能用compute来定义
+    //同时解析出依赖的信息
     watch(jsonData, () => {
       let data = { ...JSON.parse(JSON.stringify(jsonData.value)) }
       const {tData,dData} = handleJsonData(data)

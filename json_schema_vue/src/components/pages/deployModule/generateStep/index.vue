@@ -7,15 +7,33 @@
 
 <script setup>
 import myApi from '@/api/index.js'
-const projectName = defineModel('projectName')
+import { EiInfo } from '@/utils/eiinfo.js';
+import { useDeployStore } from '@/stores/deployStore.js';
+
+const props = defineProps({
+  projectName: String,
+});
+
 const activeStep = defineModel('activeStep')
+const deployStore = useDeployStore()
+const { jsonData, handledTableData ,dependencyData} = deployStore
 
 const previousStep = () => {
-  activeStep.value = activeStep.value -1;
+  activeStep.value = activeStep.value - 1;
 }
 
-const generateProduct = ()=>{
-
-  myApi.generateProduct() 
+const generateProduct = () => {
+  const generateInfo = {
+    params: {
+      projectName: props.projectName,
+      storagePosition:""
+    },
+    dependencyData: dependencyData.value,
+    tableData: handledTableData.value
+  }
+  let inInfo = new EiInfo()
+  inInfo.set("generateInfo", generateInfo)
+  myApi.generateProduct(inInfo).then(res => {
+  })
 }
 </script>
