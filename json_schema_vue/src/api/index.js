@@ -14,6 +14,10 @@ const getProjectInfo = (info) => {
   return request.send('/BEDD00/queryWorkSpaceNameList', info);
 };
 
+const getConnectInfo = (info) => {
+  return request.send('/BEDD00LY/queryConnect', info);
+};
+
 const packProduct = (info) => {
   return interfaceRequest.send('importAndExport/exportConfigForPack', info);
 };
@@ -42,7 +46,8 @@ const myApi = {
   uniqueCheck,
   dependencyCheck,
   getStoragePositionFromDataDictionary,
-  generateProduct
+  generateProduct,
+  getConnectInfo
 };
 
 export default myApi;

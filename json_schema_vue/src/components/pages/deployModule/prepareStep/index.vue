@@ -4,9 +4,9 @@
       <el-form-item label="选择工作空间">
       <ProjectSelect v-model='form.projectName'></ProjectSelect>
     </el-form-item>
-    <!-- <el-form-item label="选择任务导入的目录">
+    <el-form-item label="选择任务导入的目录">
       <NodeSelect v-model="form.node" :projectName="form.projectName"></NodeSelect>
-    </el-form-item> -->
+    </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="nextStep">下一步</el-button>
     </el-form-item>
@@ -18,7 +18,9 @@
 import ProjectSelect from '@/components/common/projectSelect/index.vue'
 import { ElNotification } from 'element-plus';
 import  NodeSelect from './nodeSelect/index.vue'
+import {useDeployStore} from '@/stores/deployStore.js'
 
+const deployStore = useDeployStore()
 const form = defineModel('form')
 const activeStep = defineModel('activeStep')
 
@@ -33,8 +35,10 @@ const nextStep = () => {
     });
     return;
   }
+  deployStore.resetTableData()
   activeStep.value = activeStep.value + 1;
 }
+
 </script>
 
 <style scoped>

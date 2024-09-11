@@ -16,7 +16,7 @@ const props = defineProps({
 
 const activeStep = defineModel('activeStep')
 const deployStore = useDeployStore()
-const { jsonData, handledTableData ,dependencyData} = deployStore
+const { jsonData, generateTableData ,dependencyData} = deployStore
 
 const previousStep = () => {
   activeStep.value = activeStep.value - 1;
@@ -29,7 +29,7 @@ const generateProduct = () => {
       storagePosition:""
     },
     dependencyData: dependencyData.value,
-    tableData: handledTableData.value
+    tableData: generateTableData.value
   }
   let inInfo = new EiInfo()
   inInfo.set("generateInfo", generateInfo)

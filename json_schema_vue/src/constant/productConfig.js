@@ -45,7 +45,68 @@ export const productConfig = {
       //导入的json数据里，展示在表格里的主要信息对应的key。
       jsonDataShowInfo: 'baseDataList',
       //导出时，每个制品存放的uuid的key可能不一样，需要配置以告诉tree
-      uuidDescKey: 'taskUuid'
+      uuidDescKey: 'taskUuid',
+      stepColumn: [
+        {
+          prop: 'stepName',
+          label: '步骤名称',
+          width: ''
+        },
+        {
+          prop: 'stepType',
+          label: '步骤类型',
+          width: ''
+        }
+      ]
+    },    
+    //数据连接的唯一性由数据引擎和逻辑分区决定，数据连接作为最小的part支持导入导出，数据引擎和逻辑分区跟着连接导出。
+    {
+      //根据index判断唯一制品，和ename一致
+      index: 'connect',
+      //选项的值
+      ename: 'connect',
+      //option选项的显示值
+      cname: '数据连接',
+      //制品图表
+      icon: Download,
+      //查询结果需要显示的列
+      column: [
+        {
+          prop: 'uuid',
+          label: 'UUID',
+          width: ''
+        },
+        {
+          prop: 'connectName',
+          label: '连接名',
+          width: ''
+        },
+        {
+          prop: 'connectSchema',
+          label: '数据库名/schema/项目名/桶/存储路径',
+          width: ''
+        },
+        {
+          prop: 'itemDesc',
+          label: '描述',
+          width: ''
+        },
+      ],
+      //查询组件
+      curComponent: null,
+      //查询部分
+      queryArea: {
+        connectName: '任务名称',
+        connectSchema: '数据库名/schema/项目名/桶/存储路径'
+      },
+      //查询数据调用的接口
+      getDataMethod: myApi.getConnectInfo,
+      //已选择的制品里，要显示的列信息的prop
+      treeShowInfo: 'connectName',
+      //导入的json数据里，展示在表格里的主要信息对应的key。
+      jsonDataShowInfo: 'baseDataList',
+      //导出时，每个制品存放的uuid的key可能不一样，需要配置以告诉tree
+      uuidDescKey: 'uuid'
     },
     {
       //根据index判断唯一制品，和ename一致

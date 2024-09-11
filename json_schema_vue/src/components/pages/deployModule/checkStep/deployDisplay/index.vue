@@ -89,7 +89,7 @@ const productStore = useProductStore();
 const deployStore = useDeployStore();
 const { stepData } = deployStore
 const tableColumn = productConfig.getOneProduct(props.curProduct)?.column;
-const stepColumn = productConfig.getOneProduct('step')?.column;
+const stepColumn = productConfig.getOneProduct(props.curProduct)?.stepColumn;
 const uniqueCheck = checkFlag.uniqueCheck
 const dependencyCheck = checkFlag.dependencyCheck
 

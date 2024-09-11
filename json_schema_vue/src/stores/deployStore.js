@@ -21,9 +21,23 @@ export const useDeployStore = () => {
     //同时解析出依赖的信息
     watch(jsonData, () => {
       let data = { ...JSON.parse(JSON.stringify(jsonData.value)) }
-      const {tData,dData} = handleJsonData(data)
+      const { tData, dData } = handleJsonData(data)
       handledTableData.value = tData
       dependencyData.value = dData
+    })
+
+    //用于部署的数据，依赖校验通过后，就可以部署，取出通过唯一性校验的制品
+    const generateTableData = computed(() => {
+      let resultObj = {}
+      let data = { ...JSON.parse(JSON.stringify(handledTableData.value)) }
+      const filteredProducts = Object.entries(data).map(
+        ([key, productArray]) =>
+          (resultObj[key] = productArray.filter(
+            (item) =>
+              item[checkFlag.uniqueCheck.variable] == 1
+          ))
+      )
+      return resultObj
     })
 
     //要在menu展示的制品
@@ -47,13 +61,12 @@ export const useDeployStore = () => {
     })
 
     //基于handledTableData，筛选出里面出了问题的数据,步骤的问题统一不显示，而是用隶属的任务来展示
-    const failedTableData = computed(()=>{
+    const failedTableData = computed(() => {
       return getFailedProduct()
     })
 
     //检验信息展示里需要的数据，数据结构是个tree，根据失败的数据来展示
     const treeData = computed(() => {
-  
       //格式化
       let formatData = []
       Object.entries(failedTableData.value).forEach(([key, value]) => {
@@ -64,7 +77,7 @@ export const useDeployStore = () => {
           curObject['label'] = cname
           let treeShowInfo = productConfig.getOneProduct(key)?.treeShowInfo
           let uuidDescKey = productConfig.getOneProduct(key)?.uuidDescKey
-          childrenArray = value.map((item) => { 
+          childrenArray = value.map((item) => {
             return {
               index: item[uuidDescKey],
               label: item[treeShowInfo]
@@ -129,8 +142,8 @@ export const useDeployStore = () => {
     //处理从导入后得到的完整json信息，得到可以展示的表格信息。（依赖信息也需要从中提取，在别的方法处理）
     const handleJsonData = (jsonData) => {
       let obj = {
-        tData : {},
-        dData : {}
+        tData: {},
+        dData: {}
       }
       Object.entries(jsonData).forEach(([key, value]) => {
         //如果解析的key是在所有已配置的制品里的，就要把这些key对应的值解析到表格里展示出来
@@ -144,11 +157,7 @@ export const useDeployStore = () => {
           //对batch的stepConfigList单独加上校验状态，因为只有task有子展示项step
           if (key == 'batch') {
             dataArray.forEach((item, index) => {
-              let temp = addColumnVariable(
-                item.stepConfigList,
-                checkFlag.uniqueCheck.variable,
-                0
-              )
+              let temp = addColumnVariable(item.stepConfigList, checkFlag.uniqueCheck.variable, 0)
               obj.tData[key][index].stepConfigList = addColumnVariable(
                 temp,
                 checkFlag.dependencyCheck.variable,
@@ -167,57 +176,77 @@ export const useDeployStore = () => {
     const getFailedProduct = () => {
       let data = { ...JSON.parse(JSON.stringify(handledTableData.value)) }
       let resultObj = {}
-      const filteredProducts = Object.entries(data).map(([key,productArray]) => 
-        resultObj[key] =  productArray.filter((item) => item[checkFlag.uniqueCheck.variable] == -1 || item[checkFlag.dependencyCheck.variable] == -1)
-      );
+      const filteredProducts = Object.entries(data).map(
+        ([key, productArray]) =>
+          (resultObj[key] = productArray.filter(
+            (item) =>
+              item[checkFlag.uniqueCheck.variable] == -1 ||
+              item[checkFlag.dependencyCheck.variable] == -1
+          ))
+      )
       return resultObj
     }
 
-    const isAllChecked = ()=>{
+    const isAllChecked = () => {
       let data = { ...JSON.parse(JSON.stringify(handledTableData.value)) }
       let array = []
-      let flag = true;
-      const filteredProducts = Object.entries(data).map(([key,productArray]) => {
-
-        array =  productArray.filter((item) => item[checkFlag.uniqueCheck.variable] == 0 || item[checkFlag.dependencyCheck.variable] == 0)
-        if(array.length > 0){
-           flag = false;
+      let flag = true
+      const filteredProducts = Object.entries(data).map(([key, productArray]) => {
+        array = productArray.filter(
+          (item) =>
+            item[checkFlag.uniqueCheck.variable] == 0 ||
+            item[checkFlag.dependencyCheck.variable] == 0
+        )
+        if (array.length > 0) {
+          flag = false
         }
-      }
-      );
-      return flag;
+      })
+      return flag
     }
 
-    const isAllHasDependency = ()=>{
+    const isAllHasDependency = () => {
       let data = { ...JSON.parse(JSON.stringify(handledTableData.value)) }
       let array = []
-      let flag = true;
-      const filteredProducts = Object.entries(data).map(([key,productArray]) => {
-
-        array =  productArray.filter((item) => item[checkFlag.dependencyCheck.variable] == -1 )
-        if(array.length > 0){
-          flag = false;
+      let flag = true
+      const filteredProducts = Object.entries(data).map(([key, productArray]) => {
+        array = productArray.filter((item) => item[checkFlag.dependencyCheck.variable] == -1)
+        if (array.length > 0) {
+          flag = false
         }
-      }
-      );
-      return flag;
+      })
+      return flag
     }
 
-    const isAllUnique = ()=>{
+    const isAllUnique = () => {
       let data = { ...JSON.parse(JSON.stringify(handledTableData.value)) }
       let array = []
-      let flag = true;
-      const filteredProducts = Object.entries(data).map(([key,productArray]) => {
-
-        array =  productArray.filter((item) => item[checkFlag.uniqueCheck.variable] == -1 )
-        if(array.length > 0){
-          flag = false;
+      let flag = true
+      const filteredProducts = Object.entries(data).map(([key, productArray]) => {
+        array = productArray.filter((item) => item[checkFlag.uniqueCheck.variable] == -1)
+        if (array.length > 0) {
+          flag = false
         }
-      }
-      );
-      return flag;
+      })
+      return flag
     }
-    
+
+    //当部署制品信息输入完，点击下一步之后，需要重置当前的校验状态
+    const resetTableData = ()=>{
+      Object.entries(handledTableData.value).forEach(([key,productArray]) =>{
+        productArray.forEach((item)=>{
+          item[checkFlag.uniqueCheck.variable] = 0
+          item[checkFlag.dependencyCheck.variable] = 0
+        })
+        if(key == 'batch'){
+          productArray.forEach((item)=>{
+           item.stepConfigList.forEach((stepItem)=>{
+            stepItem[checkFlag.uniqueCheck.variable] = 0
+            stepItem[checkFlag.dependencyCheck.variable] = 0
+           })
+          })
+        }
+      })
+    }
 
     return {
       jsonData,
@@ -228,9 +257,11 @@ export const useDeployStore = () => {
       setHandledTableData,
       stepData,
       treeData,
+      generateTableData,
       isAllChecked,
       isAllHasDependency,
-      isAllUnique
+      isAllUnique,
+      resetTableData
     }
   })()
 
