@@ -1,6 +1,8 @@
 import { ref, computed } from 'vue'
 import { defineStore, storeToRefs } from 'pinia'
-import { checkFlag, productConfig } from '@/constant/productConfig.js'
+import { checkFlag, productConfig} from '@/config/productConfig.js'
+import * as CONSTANTS from '@/constant/index.js'
+
 
 export const useDeployStore = () => {
   const store = defineStore('deployStore', () => {
@@ -151,13 +153,15 @@ export const useDeployStore = () => {
           let targetKey = 'baseDataList'
           let dataArray = findArray(targetKey, value)
 
-          //加入校验状态
-          let temp = addColumnVariable(dataArray, checkFlag.uniqueCheck.variable, 0)
-          obj.tData[key] = addColumnVariable(temp, checkFlag.dependencyCheck.variable, 0)
+          //加入校验状态,策略
+          let temp = addColumnVariable(dataArray, checkFlag.uniqueCheck.variable, CONSTANTS.CHECK_UNDO)
+          temp = addColumnVariable(temp, checkFlag.uniqueCheck.strategyVariable, false)
+          temp = addColumnVariable(temp, checkFlag.dependencyCheck.strategyVariable, false)
+          obj.tData[key] = addColumnVariable(temp, checkFlag.dependencyCheck.variable, CONSTANTS.CHECK_UNDO)
           //对batch的stepConfigList单独加上校验状态，因为只有task有子展示项step
           if (key == 'batch') {
             dataArray.forEach((item, index) => {
-              let temp = addColumnVariable(item.stepConfigList, checkFlag.uniqueCheck.variable, 0)
+              let temp = addColumnVariable(item.stepConfigList, checkFlag.uniqueCheck.variable, CONSTANTS.CHECK_UNDO)
               obj.tData[key][index].stepConfigList = addColumnVariable(
                 temp,
                 checkFlag.dependencyCheck.variable,

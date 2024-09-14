@@ -52,7 +52,7 @@ import { EiInfo } from '@/utils/eiinfo.js'
 import BatchQuery from '@/components/pages/ExportModule/dataDisplay/queryArea/BatchQuery.vue'
 import { useProductStore } from '@/stores/productStore.js'
 import QueryArea from './queryArea/index.vue'
-import { productConfig } from '@/constant/productConfig.js'
+import { productConfig } from '@/config/productConfig.js'
 
 const props = defineProps({
   curProduct: String,

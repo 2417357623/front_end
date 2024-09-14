@@ -13,7 +13,7 @@
 <script setup>
 import { ElNotification } from 'element-plus';
 import { useProductStore } from '@/stores/productStore.js';
-import { productConfig } from '@/constant/productConfig.js';
+import { productConfig } from '@/config/productConfig.js';
 
 const queryInfo = defineModel();
 

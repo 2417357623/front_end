@@ -28,7 +28,7 @@
   
   import { ElNotification } from 'element-plus';
   import { useDeployStore } from '@/stores/deployStore.js';
-  import { productConfig } from '@/constant/productConfig.js';
+  import { productConfig } from '@/config/productConfig.js';
   
   const deployStore = useDeployStore()
   const fileList = ref([]);

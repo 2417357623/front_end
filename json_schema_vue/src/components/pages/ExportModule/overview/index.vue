@@ -24,7 +24,7 @@ import { ref } from 'vue'
 const productStore = useProductStore()
 const { treeSelectedIndex, tableSelectedIndex, tableSelectedRows, setTreeSelectedIndex } =
   productStore
-import { productConfig } from '@/constant/productConfig.js'
+import { productConfig } from '@/config/productConfig.js'
 const treeItems = ref([])
 
 const treeRef = ref()

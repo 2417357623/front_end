@@ -56,7 +56,7 @@ import myApi from '@/api/index.js'
 import { EiInfo } from '@/utils/eiinfo.js'
 import OverView from './overview/index.vue'
 import { useProductStore } from '@/stores/productStore.js'
-import { productConfig } from '@/constant/productConfig.js'
+import { productConfig } from '@/config/productConfig.js'
 
 const productStore = useProductStore()
 const projectName = ref('')

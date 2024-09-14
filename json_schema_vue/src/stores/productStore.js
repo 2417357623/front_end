@@ -1,5 +1,5 @@
 import { defineStore, storeToRefs } from 'pinia';
-import {productConfig} from '@/constant/productConfig.js'
+import {productConfig} from '@/config/productConfig.js'
 
 export const useProductStore = ()=>{
 

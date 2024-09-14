@@ -27,7 +27,7 @@ import CheckStep from '../deployModule/checkStep/index.vue'
 const activeStep = ref(1);
 const form = ref({
   projectName:"",
-  node:""
+  node:[]
 })
 
 onMounted(

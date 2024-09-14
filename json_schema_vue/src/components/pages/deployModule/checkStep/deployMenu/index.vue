@@ -22,7 +22,7 @@
 
 import { useProductStore } from '@/stores/productStore.js';
 import { useDeployStore } from '@/stores/deployStore.js';
-import { productConfig } from '@/constant/productConfig'
+import { productConfig } from '@/config/productConfig'
 
 const deployStore = useDeployStore()
 const {handledTableData,menuIndex} = deployStore
