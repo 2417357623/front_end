@@ -1,3 +1,5 @@
+//通用配置文件
+
 import {
   CircleCloseFilled,
   Download,
@@ -8,6 +10,7 @@ import {
 
 import myApi from '@/api/index.js'
 import * as CONSTANTS from '@/constant/index.js'
+import {taskType} from '@/config/batchConfig.js'
 
 export const productConfig = {
   productItems: [
@@ -17,7 +20,7 @@ export const productConfig = {
       //选项的值
       ename: 'batch',
       //option选项的显示值
-      cname: '批式任务',
+      cname: '批次任务',
       //制品图表
       icon: Download,
       //查询结果需要显示的列
@@ -35,7 +38,11 @@ export const productConfig = {
         {
           prop: 'taskType',
           label: '任务类型',
-          width: ''
+          width: '',
+          formatter:(row, column, cellValue) => {
+            const type = taskType.find(item => item.value === cellValue);
+            return type ? type.cname : '未知任务类型';
+          }
         }
       ],
       //查询组件
@@ -108,7 +115,9 @@ export const productConfig = {
       getDataMethod: myApi.getAreaInfo,
       //已选择的制品里，要显示的列信息的prop
       treeShowInfo: 'areaName',
-      jsonDataShowInfo: 'baseDataList'
+      jsonDataShowInfo: 'baseDataList',
+      //需要的依赖的index
+      dependency: ["connect"]
     }
     //     //数据连接的唯一性由数据引擎和逻辑分区决定，数据连接作为最小的part支持导入导出，数据引擎和逻辑分区跟着连接导出。
     // {
@@ -190,13 +199,13 @@ export const checkFlag = {
         index: CONSTANTS.CHECK_WARN,
         desc: '警告，存在相同制品',
         icon: WarnTriangleFilled,
-        color: 'yellow'
+        color: '#f2711c'
       },
       {
         index: CONSTANTS.CHECK_UNDO,
         desc: '未校验',
         icon: QuestionFilled,
-        color: '#f2711c'
+        color: 'var(--ep-border-color)'
       },
       {
         index: CONSTANTS.CHECK_SUCCESS,
@@ -231,7 +240,7 @@ export const checkFlag = {
         index: CONSTANTS.CHECK_WARN,
         desc: '部分依赖缺失，可以强制导入',
         icon: WarnTriangleFilled,
-        color: 'yellow'
+        color: '#f2711c'
       },
       {
         index: CONSTANTS.CHECK_FAILED,
@@ -243,7 +252,7 @@ export const checkFlag = {
         index: CONSTANTS.CHECK_UNDO,
         desc: '依赖未校验',
         icon: QuestionFilled,
-        color: '#f2711c'
+        color: 'var(--ep-border-color)'
       },
       {
         index: CONSTANTS.CHECK_SUCCESS,

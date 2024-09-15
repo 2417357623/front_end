@@ -11,6 +11,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import { dirname } from 'path';
+import mockDevServerPlugin from 'vite-plugin-mock-dev-server'
 
 import Unocss from 'unocss/vite'
 import {
@@ -23,6 +24,7 @@ import {
 
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
+import Inspect from 'vite-plugin-inspect'
 
 const pathSrc = path.resolve(fileURLToPath(new URL('./', import.meta.url)), 'src')
 
@@ -83,6 +85,10 @@ export default defineConfig({
         transformerVariantGroup(),
       ]
     }),
+    //前端mock数据插件
+    mockDevServerPlugin(/* plugin options */),
+    //插件生效检查插件
+    Inspect()
   ],
   resolve: {
     alias: {
@@ -105,7 +111,6 @@ export default defineConfig({
       '/xdata-succeed-mill': {
         target: 'http://localhost:8080',
         changeOrigin: true,
-        ws: true,
       },
     },
   },

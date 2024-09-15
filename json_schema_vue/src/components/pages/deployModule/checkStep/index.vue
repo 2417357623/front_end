@@ -47,32 +47,33 @@ const props = defineProps({
 const activeStep = defineModel('activeStep')
 
 const nextStep = () => {
-  if(!deployStore.isAllChecked()){
-    ElNotification({
-      title: '提示',
-      message: h('i', { style: 'color: var(--ep-color-primary)' }, '请先做校验'),
-      position: 'top-right',
-      type: 'warning',
-    });
-    return;
-  }
-  if(!deployStore.isAllHasDependency()){
-    ElNotification({
-      title: '提示',
-      message: h('i', { style: 'color: var(--ep-color-primary)' }, '依赖校验未通过，请在新环境建好相应依赖，或者把依赖导出到部署包中来'),
-      position: 'top-right',
-      type: 'error',
-    });
-    return
-  }
-  if(!deployStore.isAllUnique()){
-    ElNotification({
-      title: '提示',
-      message: h('i', { style: 'color: var(--ep-color-primary)' }, '唯一性校验未通过，请确保新环境的同名制品是您需要的，此次导入将忽略唯一性校验错误的制品，和新环境同名制品建立关联'),
-      position: 'top-right',
-      type: 'warning',
-    });
-  }
+  // if(!deployStore.isAllChecked()){
+  //   ElNotification({
+  //     title: '提示',
+  //     message: h('i', { style: 'color: var(--ep-color-primary)' }, '请先做校验'),
+  //     position: 'top-right',
+  //     type: 'warning',
+  //   });
+  //   return;
+  // }
+  // if(!deployStore.isAllHasDependency()){
+  //   ElNotification({
+  //     title: '提示',
+  //     message: h('i', { style: 'color: var(--ep-color-primary)' }, '依赖校验未通过，请在新环境建好相应依赖，或者把依赖导出到部署包中来'),
+  //     position: 'top-right',
+  //     type: 'error',
+  //   });
+  //   return
+  // }
+  // if(!deployStore.isAllUnique()){
+  //   ElNotification({
+  //     title: '提示',
+  //     message: h('i', { style: 'color: var(--ep-color-primary)' }, '唯一性校验未通过，请确保新环境的同名制品是您需要的，此次导入将忽略唯一性校验错误的制品，和新环境同名制品建立关联'),
+  //     position: 'top-right',
+  //     type: 'warning',
+  //   });
+  // }
+
   activeStep.value = activeStep.value + 1;
 }
 

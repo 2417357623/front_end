@@ -5,8 +5,8 @@ let host = window.location.host;
 let reg = /^localhost:4000+/;
 
 const baseURL = reg.test(host)
-  ? '.././xdata-succeed-mill'
-  : '.././';
+  ? '/xdata-succeed-mill'
+  : '/';
 
 //专门接受blob形式的二进制文件。
 const interfaceRequestAxios = axios.create({

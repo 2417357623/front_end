@@ -49,6 +49,7 @@ const { jsonData, handledTableData ,dependencyData} = deployStore
   myApi.dependencyCheck(dInInfo).then(res => {
     let resultData = res.get("tableData")
     deployStore.setHandledTableData(resultData)
+    deployStore.computeIsImport()
   })
 }
 

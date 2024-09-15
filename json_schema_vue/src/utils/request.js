@@ -5,8 +5,8 @@ let host = window.location.host;
 let reg = /^localhost:4000+/;
 
 const baseURL = reg.test(host)
-  ? '.././xdata-succeed-mill/service'
-  : '.././service';
+  ? '/xdata-succeed-mill/service'
+  : '/service';
 
 const requestAxios = axios.create({
   baseURL,

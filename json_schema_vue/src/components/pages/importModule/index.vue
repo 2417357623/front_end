@@ -44,8 +44,8 @@
   let reg = /^localhost:4000+/;
   
   const baseURL = reg.test(host)
-      ? '.././xdata-succeed-mill'
-      : '../.';
+      ? '/xdata-succeed-mill'
+      : '';
   
   const url = baseURL + '/importAndExport/parseFileForDeploy'
   
