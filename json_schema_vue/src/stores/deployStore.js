@@ -12,7 +12,6 @@ export const  useDeployStore = () => {
         const jsonData = ref({})
 
         //一旦传入应用的jsonData变化，也就是导入的资料变化，那么立马对立面的文件进行解析，获取需要呈现的内容。
-        //可以在表里面使用的数据，注意step作为task的一个属性，在一个表格中呈现
         //数据格式{batch:[{uuid:11,name:11},{}],table:[]}
         const handledTableData = ref({})
 
@@ -29,8 +28,50 @@ export const  useDeployStore = () => {
             dependencyData.value = dData
         })
 
+        //每当依赖校验结束，需要根据返回的数据，判断依赖校验的表格显示值，并且对缺失的依赖信息做提示
+        const computeDependencyCheck = ()=>{
+            Object.entries(handledTableData.value).forEach(
+                ([key,productArray])=>{
+                    let requiredDependency = productConfig.getRequiredDependency(key)
+                    let unrequiredDependency = productConfig.getUnrequiredDependency(key)
+                    let dependency  = dependencyData.value[key]
+                    productArray.forEach(
+                        (productItem)=>{
+                            productItem[checkFlag.dependencyCheck.variable] = CONSTANTS.CHECK_SUCCESS
+                            unrequiredDependency.forEach((dependencyVariable) =>{
+                                //某一个制品列表对象的依赖的字符串
+                                let dependencyStr = productItem[dependencyVariable]
+                                let dependencyArr = dependencyStr ? dependencyStr.split(',') : []
+                                dependencyArr.forEach(
+                                    (uuid)=>{
+                                        let obj = dependency[dependencyVariable].find( item => item.uuid === productItem.uuid)
+                                        if(!obj.isExist){
+                                            productItem[checkFlag.dependencyCheck.variable] = CONSTANTS.CHECK_WARN
+                                        }
+                                    }
+                                )
+                            })
+                            requiredDependency.forEach((dependencyVariable) =>{
+                                //某一个制品列表对象的依赖的字符串
+                                let dependencyStr = productItem[dependencyVariable]
+                                let dependencyArr = dependencyStr ? dependencyStr.split(',') : []
+                                dependencyArr.forEach(
+                                    (uuid)=>{
+                                        let obj = dependency[dependencyVariable].find( item => item.uuid === uuid)
+                                        if(!obj.isExist){
+                                            productItem[checkFlag.dependencyCheck.variable] = CONSTANTS.CHECK_FAILED
+                                        }
+                                    }
+                                )
+                            })
+                        }
+                    )
+                }
+            )
+        }
+
+
         //每次部署校验的时候调用，根据校验结果都要重新计算策略列的值，只有成功的才会是导入状态。其余默认不导入
-        //
         const computeIsImport = ()=>{
             Object.entries(handledTableData.value).map(
                 ([key, productArray]) => {
@@ -112,6 +153,10 @@ export const  useDeployStore = () => {
 
         const setHandledTableData = (value) => {
             handledTableData.value = value
+        }
+
+        const setDependencyData = (value) => {
+            dependencyData.value = value
         }
 
         //找到某个特定key的数组，即为需要在表格中展示的某一制品的表格数据。这个key需要在constant配置中配置好。
@@ -281,7 +326,9 @@ export const  useDeployStore = () => {
             isAllHasDependency,
             isAllUnique,
             resetTableData,
-            computeIsImport
+            computeIsImport,
+            computeDependencyCheck,
+            setDependencyData
         }
     })()
 

@@ -13,6 +13,7 @@ import * as CONSTANTS from '@/constant/index.js'
 import {taskType} from '@/config/batchConfig.js'
 
 export const productConfig = {
+  //以后这种配置可以用策略性数据型结构，把数组写成对象，这样在拿取某一个数据时就不用遍历，而是用.key的方式拿取。
   productItems: [
     {
       //根据index判断唯一制品，和ename一致
@@ -71,7 +72,12 @@ export const productConfig = {
           label: '步骤类型',
           width: ''
         }
-      ]
+      ],
+      //导出的依赖的变量名配置在这里，分为必须和非必须依赖，不同依赖的缺失导致不同的结果
+      dependency: {
+        "required":["dataSourceList"],
+        "unrequired":[]
+      }
     },
     {
       //根据index判断唯一制品，和ename一致
@@ -117,7 +123,10 @@ export const productConfig = {
       treeShowInfo: 'areaName',
       jsonDataShowInfo: 'baseDataList',
       //需要的依赖的index
-      dependency: ["connect"]
+      dependency: {
+        "required":["dataSourceList"],
+        "unrequired":[]
+      }
     }
     //     //数据连接的唯一性由数据引擎和逻辑分区决定，数据连接作为最小的part支持导入导出，数据引擎和逻辑分区跟着连接导出。
     // {
@@ -175,6 +184,14 @@ export const productConfig = {
 
   getQueryArea(index) {
     return this.productItems.find((item) => item.index === index)?.queryArea
+  },
+
+  getRequiredDependency(index){
+    return this.productItems.find((item) => item.index === index)?.dependency?.required
+  },
+
+  getUnrequiredDependency(index){
+    return this.productItems.find((item) => item.index === index)?.dependency?.unrequired
   },
 
   getAllProductIndex() {

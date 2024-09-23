@@ -47,9 +47,10 @@ const { jsonData, handledTableData ,dependencyData} = deployStore
   let dInInfo = new EiInfo()
   dInInfo.set("dependencyCheckInfo", dependencyCheckInfo)
   myApi.dependencyCheck(dInInfo).then(res => {
-    let resultData = res.get("tableData")
-    deployStore.setHandledTableData(resultData)
+    let dependencyData = res.get("dependencyData")
+    deployStore.setDependencyData(dependencyData)
     deployStore.computeIsImport()
+    deployStore.computeDependencyCheck()
   })
 }
 

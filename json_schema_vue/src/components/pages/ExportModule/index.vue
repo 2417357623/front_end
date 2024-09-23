@@ -52,8 +52,6 @@
 import { ref, getCurrentInstance } from 'vue'
 import ProjectSelect from '@/components/common/projectSelect/index.vue'
 import DisplayArea from './dataDisplay/index.vue'
-import myApi from '@/api/index.js'
-import { EiInfo } from '@/utils/eiinfo.js'
 import OverView from './overview/index.vue'
 import { useProductStore } from '@/stores/productStore.js'
 import { productConfig } from '@/config/productConfig.js'
