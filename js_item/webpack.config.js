@@ -1,26 +1,19 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { resolve } = require("path");
+const { devServer } = require("../engineering_vue/webpack.config");
 
-module.exports = {
+module.exports={
     mode:"development",
     entry:"./src/main.js",
     output:{
-        path: resolve(__dirname, 'dist'),
+        path: resolve(__dirname,'.dist'),
         filename:"main.js"
     },
     resolve:{
-        extensions:['.ts','.js','.vue','.json']
-    },
-    resolveLoader:{
-        modules:['node_modules', resolve(__dirname, './modules')]
+        extensions:['.ts','.js','.vue']
     },
     module:{
-        rules:[
-            {
-                test:/.vue$/i,
-                loader:"vue-loader"
-            }
-        ]
+        rules:[]
     },
     plugins:[
         new HtmlWebpackPlugin({
@@ -30,4 +23,5 @@ module.exports = {
     devServer:{
         hot:true
     }
+
 }
