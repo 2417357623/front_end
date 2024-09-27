@@ -1,6 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { resolve } = require("path");
-const { devServer } = require("../engineering_vue/webpack.config");
 
 module.exports={
     mode:"development",

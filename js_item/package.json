@@ -5,8 +5,8 @@
   "main": "main.js",
   "bin": "./src/myCommand.js",
   "scripts": {
-      "build": "webpack",
-    "dev":"webpack-dev-server"
+    "build": "webpack",
+    "dev": "webpack-dev-server"
   },
   "keywords": [],
   "author": "",
