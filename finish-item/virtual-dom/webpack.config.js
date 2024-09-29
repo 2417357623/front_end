@@ -1,18 +1,16 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { resolve } = require("path");
+const {resolve}  = require("path")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = {
+    entry:"./main.js",
     mode:"development",
-    entry:"./src/main.js",
     output:{
-        path: resolve(__dirname, 'dist'),
+        path: resolve(__dirname,"dist"),
         filename:"main.js"
     },
-    resolve:{
-        extensions:['.ts','.js','.vue','.json']
-    },
+    devtool:"source-map",
     resolveLoader:{
-        modules:['node_modules', resolve(__dirname, './modules')]
+        modules:['node_modules', resolve(__dirname, './')]
     },
     module:{
         rules:[
@@ -30,5 +28,4 @@ module.exports = {
     devServer:{
         hot:true
     },
-    devtool:"source-map"
 }
