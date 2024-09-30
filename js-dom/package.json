@@ -1,12 +1,11 @@
 {
-  "name": "js_item",
+  "name": "js-dom",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
-  "bin": "./src/myCommand.js",
+  "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack-dev-server"
+    "dev":"webpack-dev-server"
   },
   "keywords": [],
   "author": "",

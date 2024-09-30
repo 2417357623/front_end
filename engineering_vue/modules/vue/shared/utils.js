@@ -8,6 +8,12 @@ const getFirstChildNode = (node)=>{
     }
 }
 
+const isObject = (value) =>{
+    return typeof value == "object"
+}
+
+
 export {
-    getFirstChildNode
+    getFirstChildNode,
+    isObject
 }
