@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .box {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+        background: #4bb;
+    }
+
+    .drag {
+        width: 200px;
+        height: 200px;
+        position: relative;
+        background-color: blueviolet;
+        /* 光标的样式 */
+        cursor: move;
+    }
+
+    .scale {
+        width: 20px;
+        height: 20px;
+        background-color: yellow;
+        cursor: se-resize;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        /* manages how content that exceeds the container is handled  */
+        /* hidden: overflowing content is clipped, and no scrollbars are shown */
+        overflow: hidden;
+    }
+</style>
+
+<body>
+    <div class="box">
+        <div class="drag">
+            <div class="scale"></div>
+        </div>
+    </div>
+    <script>
+        // the load event is fired when the whole page has loaded, including dependencies such as stylesheets,script, iframe, and images, except those that loaded lazily
+        window.onload = function () {
+            var box = document.querySelector('.box')
+            var drag = document.querySelector('.drag')
+            var scale = document.querySelector('.scale')
+            
+            dragTool(drag);
+
+            function dragTool(node){
+                // mousedown event listener is added, the event triggers when user presses a button down , and the e represent the event Object
+                node.addEventListener('mousedown',(e)=>{
+                    console.log(e)
+                })
+            }
+        }
+
+    </script>
+</body>
+
+</html>
