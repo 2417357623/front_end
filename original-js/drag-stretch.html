@@ -54,13 +54,65 @@
             var box = document.querySelector('.box')
             var drag = document.querySelector('.drag')
             var scale = document.querySelector('.scale')
-            
-            dragTool(drag);
 
-            function dragTool(node){
+            dragTool(drag);
+            scaleTool(scale,drag,box)
+
+            function dragTool(node) {
+
+
                 // mousedown event listener is added, the event triggers when user presses a button down , and the e represent the event Object
-                node.addEventListener('mousedown',(e)=>{
+                node.addEventListener('mousedown', (e) => {
                     console.log(e)
+                    // var offsetX = e.clientX - node.offsetLeft
+                    // var offsetY = e.clientY - node.offsetTop
+                    var offsetX = e.offsetX
+                    var offsetY = e.offsetY
+
+                    const mousemovefunc = (e) => {
+                        var currentLeft = e.clientX - offsetX
+                        var currentTop = e.clientY - offsetY
+
+                        currentLeft = Math.max(0, Math.min(currentLeft, document.body.clientWidth - node.offsetWidth)); // Constrain X (限制 X 位置)
+                        currentTop = Math.max(0, Math.min(currentTop, document.body.clientHeight - node.offsetHeight)); // Constrain Y (限制 Y 位置)
+
+                        node.style.left = currentLeft + 'px'
+                        node.style.top = currentTop + 'px'
+                    };
+                    document.addEventListener('mousemove', mousemovefunc)
+                    document.addEventListener('mouseup', () => {
+                        document.removeEventListener('mousemove', mousemovefunc);
+                    },{once:true});
+                })
+                // the difference between e.offsetX , e.clientX , node.offsetLeft. 
+                // e.offsetX is The horizontal position of the mouse pointer relative to the element's content area where the event occurred.
+                // e.clientX is The horizontal position of the mouse pointer relative to the viewport (the visible part of the browser window).
+                //node.offsetLeft is not a event function ,it belongs to dom element.
+
+                
+            }
+
+            function scaleTool(scale,drag,box){
+                scale.addEventListener('mousedown',(e)=>{
+                    e.stopPropagation()
+                    e.preventDefault()
+                    var position = {
+                        'w' : drag.offsetWidth,
+                        'h': drag.offsetHeight,
+                        'x': e.clientX,
+                        'y': e.clientY
+                    }
+                    const mousemovefunc = (e)=>{
+                        var currentWidth = Math.max(30,e.clientX - position.x + position.w)
+                        var currentHeight = Math.max(30,e.clientY - position.y + position.h)
+                        drag.style.width = currentWidth + 'px'
+                        drag.style.height = currentHeight + 'px'
+                    }
+
+                    document.addEventListener('mousemove',mousemovefunc)
+                    document.addEventListener('mouseup',()=>{
+                        document.removeEventListener('mousemove',mousemovefunc)
+                    },{once:true})
                 })
             }
         }
