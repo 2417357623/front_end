@@ -1,29 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>navLink</title>
     <style>
+        html,
         body {
-            background-color: white;
-            height: 100vh;
+            background-color: rgb(51, 29, 216);
+            height: 100%;
             /* prevent scrollbars from appearing  */
             overflow: hidden;
+            margin: 0;
+            /* Remove default margin */
+            padding: 0;
+            /* Remove default padding */
+            position: relative;
         }
+
         nav {
+            position: absolute;
             text-align: center;
-            margin-top: 20%;
+            top: 20%;
+            width: 100%;
+        }
+
+        nav a {
+            position: relative;
+            text-decoration: none;
+            margin: 0 30px;
+            color: white;
+        }
+
+        nav a::before,
+        nav a::after {
+            content: "";
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border: 2px solid black;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
         }
     </style>
 </head>
+
 <body>
     <!-- sematic HTML refers to using HTML in a way that accurately reflects the content they contain. Instead of using non-descriptive elements like `div` or `span`
         sematic tags describe the purpose of the content. -->
+
     <nav>
         <a href="">点赞</a>
         <a href="">投币</a>
         <a href="">收藏</a>
     </nav>
 </body>
+
 </html>
+
+<!-- tips -->
+<!-- margin %值是根据父元素的宽度来定义的，即便是margin-top -->
+<!-- 绝对定位块级元素的宽度可以根据：
+    显式设置的 width；
+    通过 left 和 right 确定的宽度；
+    如果都没有设置，则由内容决定。
+
+    普通的块级元素：
+    普通块级元素默认占据父容器的全部宽度。
+    如果设置了 width，它会按照 CSS 盒模型进行计算。
+    box-sizing 决定了宽度是否包含内边距和边框。
+    总宽度不仅取决于 width，还会受到 padding、border 和 margin 的影响。
+ -->
+
+<!-- 文档流
+ 块级元素会占满一整行，并推动其他元素到下一行。
+行内元素会并排显示在同一行，直到一行放不下时换行。
+
+以下情况会使元素脱离文档流：
+
+绝对定位（absolute）
+固定定位（fixed）
+浮动（float）
+伪元素设置为绝对定位
+display: none
+当元素脱离文档流时，它不会再影响其他元素的布局。了解这些情况对于 CSS 布局和页面调试非常重要。。
+
+当元素脱离文档流时：
+
+它不会影响其他元素的布局，也不会为其他元素腾出空间。
+它可能导致与其他元素的重叠，尤其是绝对定位和固定定位时。
+父元素的高度不会包含这些脱离的元素（如绝对定位和浮动元素）。
+使用浮动时需要清除浮动，否则会导致父容器高度塌陷。 
+-->
