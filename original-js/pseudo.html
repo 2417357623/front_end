@@ -1,3 +1,5 @@
+<!-- 讲了伪元素，html内置标签，盒子模型 -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>navLink</title>
     <style>
+        /* Global box model reset */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            /* Include padding and border in width and height */
+        }
+
         html,
         body {
             background-color: rgb(51, 29, 216);
@@ -43,7 +53,60 @@
             border-radius: 50%;
             top: 50%;
             left: 50%;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%) scale(0.2);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover::before,
+        nav a:hover::after{
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+        nav a::after{
+            width: 50px;
+            height: 50px;
+            border-width: 6px;
+        }
+
+        /*  
+        盒子模型默认的height由margin, padding, border,content height组成
+        一般我们不想把margin 放进去，所以我们需要更改盒模型
+
+        button的默认display是inline-block,所以在一行 ,并且button是浏览器自带标签有默认的样式。
+        */
+
+
+        .btn {
+            width: 100px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            border: 0px;    
+
+        }
+
+        .btn2 {
+            padding: 0px;
+            border: 0px;
+            width: 100px;
+            height: 20px;
+        }
+
+        .btn::before {
+            content: "👉";
+        }
+
+        .btn::after {
+            content: "👉";
+
+        }
+
+        .dd {
+            display: inline-block;
+            width: 100px;
+            height: 20px;
+            background-color: aliceblue;
         }
     </style>
 </head>
@@ -51,7 +114,9 @@
 <body>
     <!-- sematic HTML refers to using HTML in a way that accurately reflects the content they contain. Instead of using non-descriptive elements like `div` or `span`
         sematic tags describe the purpose of the content. -->
-
+    <button class="btn">default</button>
+    <button class="btn2">default</button>
+    <div class="dd"></div>
     <nav>
         <a href="">点赞</a>
         <a href="">投币</a>
