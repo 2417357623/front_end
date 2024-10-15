@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .custom-dropdown {
+            width: 200px;
+            /* Width of the dropdown container (下拉框容器的宽度) */
+            position: relative;
+            /* Position for absolute children (子元素的绝对定位) */
+        }
+        select{
+            width: 100px;
+        }
+
+
+        .option {
+            padding: 10px;
+            /* Padding inside options (选项内的内边距) */
+            cursor: pointer;
+            /* Pointer cursor on hover (悬停时的光标) */
+            width: 200px !important;
+        }
+
+        .option:hover {
+            background-color: #e0e0e0;
+            /* Change background on hover (悬停时改变背景颜色) */
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="custom-dropdown">
+        <select class="selected">
+            <option class="option" value="1">Option 1aaaaaaaaaaaaaaaaaaaaaaa</option>
+            <option class="option" value="2">Option 2aaaaaaaaaaaaaaaaaaaaaa</option>
+            <option class="option" value="3">Option 3aaaaaaaaaaaaaaaaaaaaaaa</option>
+        <select>
+    </div>
+</body>
+
+</html>

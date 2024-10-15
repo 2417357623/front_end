@@ -3502,6 +3502,11 @@ fs.realpath@^1.0.0:
   resolved "https://registry.npmmirror.com/fs.realpath/-/fs.realpath-1.0.0.tgz"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
 
+fsevents@~2.3.2:
+  version "2.3.3"
+  resolved "https://registry.npmmirror.com/fsevents/-/fsevents-2.3.3.tgz"
+  integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
+
 function-bind@^1.1.1, function-bind@^1.1.2:
   version "1.1.2"
   resolved "https://registry.npmmirror.com/function-bind/-/function-bind-1.1.2.tgz"
@@ -7049,6 +7054,20 @@ webpack-sources@^3.2.3:
     terser-webpack-plugin "^5.3.7"
     watchpack "^2.4.0"
     webpack-sources "^3.2.3"
+
+"webpacktest_1217@file:":
+  version "1.0.0"
+  resolved "file:"
+  dependencies:
+    "@types/react" "^18.2.48"
+    "@types/react-dom" "^18.2.18"
+    antd "^5.15.2"
+    lodash "^4.17.21"
+    node-sass "^9.0.0"
+    react-router-dom "^6.22.3"
+    sass "^1.72.0"
+    styled-components "^6.1.8"
+    webpacktest_1217 "file:"
 
 websocket-driver@^0.7.4, websocket-driver@>=0.5.1:
   version "0.7.4"
