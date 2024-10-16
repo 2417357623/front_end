@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basics</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+    <main>
+        <h1 class="sr-only">Basics</h1>
+        <h2>Typography</h2>
+        <p>
+            <b>Make me bold</b>
+            <br />
+            <i>Make me italic</i>
+        </p>
+        <p>
+            <span style="font-family: Arial, Arimo, sans-serif">I'm from the Arial font family!</span>
+            <br />
+            <span style="font-family: 'Times New Roman', serif">And I'm from the Times New Roman font family!</span>
+        </p>
+        <p>
+            <span style="text-decoration: underline">Make this text be underline</span>
+            <br />
+            <span style="text-decoration: line-through">And put a line through this one</span>
+        </p>
+        <h2>Headings</h2>
+        <p class="h1">This is a &lt;h1&gt; tag</p>
+        <p class="h2">This is a &lt;h2&gt; tag</p>
+        <p class="h3">This is a &lt;h3&gt; tag</p>
+        <h2>Colors</h2>
+        <div style="color: #ee5531">
+            <p>Color me orange!</p>
+            <div style="display: flex; block-size: 4rem; inline-size: 4rem; background-color: currentColor"></div>
+        </div>
+        <div style="color: #4621ab">
+            <p>Color me purple!</p>
+            <div
+                style="display: flex; block-size: 4rem; inline-size: 4rem; background-color: currentColor; border-radius: 50%">
+            </div>
+        </div>
+        <h2>Buttons</h2>
+        <div>
+            <h3>Default</h3>
+            <span class="button">Button</span>
+        </div>
+        <div>
+            <h3>Hovered</h3>
+            <span class="button hovered">Button</span>
+        </div>
+        <div>
+            <h3>Active</h3>
+            <span class="button active">Button</span>
+        </div>
+        <form></form>
+        <p>ddddddddddddddddddddddd<br>aaaaaaaaaa</p>
+    </main>
+  
+    <dialog id="settings-modal">
+        <form>
+            <button class="close-button" formmethod="dialog">
+					<svg class="icon" width="24" height="24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M18 6l-12 12"></path>
+						<path d="M6 6l12 12"></path>
+					</svg>
+					<span>close</span>
+				</button>
+            <h2 class="settings-title">settings</h2>
+            <label for="settings-darkmode">dark mode</label>
+            <input id="settings-darkmode" class="toggle" type="checkbox" />
+            <label for="settings-hue">accent color</label>
+            <div id="settings-hue-wrapper">
+                <div id="settings-hue-preview"></div>
+                <input id="settings-hue" type="range" min="0" max="360" />
+            </div>
+        </form>
+    </dialog>
+    
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+<!-- &gt; is an HTML entity that represents the greater-than sign (>). -->
