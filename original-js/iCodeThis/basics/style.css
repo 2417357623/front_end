@@ -16,7 +16,7 @@
     --font-2-weight-normal: 400;
     --font-2-weight-bold: 700;
     --line-height-small: 1.1;
-    --line-height-medium: 1.25;
+    --line-height-medium: 1.25; /* 1.25 is a good default line height which is slightly larger than the small line height, but still compact enough to allow for good readability */
     --line-height-large: 1.5;
     --border-width: 0.15rem;
     --outline-offset: calc(0.5 * var(--border-width));
@@ -99,6 +99,10 @@
     position: absolute;
     white-space: nowrap;
     width: 1px;
+}
+.container {
+    width: 300px; /* 容器宽度设置为300px */
+    border: 1px solid black; /* 添加边框以更清楚地看到容器 */
 }
 
 img,
