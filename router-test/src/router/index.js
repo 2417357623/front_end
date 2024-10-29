@@ -11,7 +11,23 @@ const routes = [
         path:'/about',
         name:"About",
         component:() => import("@/components/about.vue")
-    }
+    },
+    {
+        path:'/brazil',
+        name:"Brazil",
+        component:() => import("@/components/brazil.vue")
+    },
+    {
+        path:'/panama',
+        name:"panama",
+        component:() => import("@/components/panama.vue")
+    },
+    {
+        path:'/hawaii',
+        name:"hawaii",
+        component:() => import("@/components/hawaii.vue")
+    },
+    
 ]
 
 const router = createRouter({
