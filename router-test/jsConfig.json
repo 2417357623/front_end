@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",                          // Base directory to resolve non-relative module names
+      "paths": {
+        "@/*": ["src/*"]                       // Path alias for src directory
+      }
+    },
+    "include": [
+      "src/**/*"                               // Include all files in the src directory
+    ]
+  }
+  
