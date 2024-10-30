@@ -9,10 +9,12 @@
     <section class="experiences">
         <h2>Top Experiences in {{ destination.name }}</h2>
         <div class="cards">
-        <RouterLink v-for="experience in experiences" :key="experience.slug" :to="{name:'Experience.show',params:{experienceSlug:experience.slug}}">
+            <RouterLink v-for="experience in experiences" :key="experience.slug"
+                :to="{ name: 'Experience.show', params: { experienceSlug: experience.slug } }">
                 <ExperienceCard :experience="experience" />
-        </RouterLink>
-    </div>
+            </RouterLink>
+        </div>
+        <RouterView />
     </section>
 </template>
 
