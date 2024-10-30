@@ -2,7 +2,7 @@
   <div class="home">
     <h1>All Destinations</h1>
     <div class="destinations">
-      <router-link v-for="destination in destinations" :key="destination.id" :to="destination.slug">
+      <router-link v-for="destination in destinations" :key="destination.id" :to="{ name: 'Destination.show', params: { id: destination.id ,slug: destination.slug}}">
         {{ destination.name }}
         <img :src="`/images/${destination.image}`" :alt="destination.name" />
       </router-link>

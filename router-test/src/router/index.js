@@ -1,5 +1,5 @@
 import { createRouter,createWebHistory } from "vue-router"; 
-import HomePage from "@/components/home.vue";
+import HomePage from "@/pages/home.vue";
 
 const routes = [
     {
@@ -8,31 +8,24 @@ const routes = [
         component: HomePage
     },
     {
-        path:'/about',
-        name:"About",
-        component:() => import("@/components/about.vue")
+        path:"/destination/:id/:slug",
+        name:"Destination.show",
+        component:() => import("@/pages/DestinationShow.vue"),
+        props:route=>({ ...route.params,id:parseInt(route.params.id)})
     },
     {
-        path:'/brazil',
-        name:"Brazil",
-        component:() => import("@/components/brazil.vue")
-    },
-    {
-        path:'/panama',
-        name:"panama",
-        component:() => import("@/components/panama.vue")
-    },
-    {
-        path:'/hawaii',
-        name:"hawaii",
-        component:() => import("@/components/hawaii.vue")
-    },
+        path:"/destination/:id/:slug/:experienceSlug",
+        name:"Experience.show",
+        component:()=>import("@/pages/ExperienceShow.vue"),
+        props:route=> ({...route.params,id:parseInt(route.params.id)})
+    }
     
 ]
 
 const router = createRouter({
     history:createWebHistory(),
-    routes:routes
+    routes:routes,
+    linkActiveClass:"vue-router-link",
 })
 
 export default router
